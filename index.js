@@ -4,6 +4,7 @@ const client = new Discord.Client()
 
 client.on('ready', async () => {
   console.log(`> Logged in as ${client.user.tag}`)
+  client.user.setActivity('unverified members', { type: 'WATCHING' })
 
   const guild = client.guilds.get('520444262685474816')
   const wanderingRole = guild.roles.get('563143582765023232')
