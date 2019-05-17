@@ -17,6 +17,7 @@ client.on('ready', async () => {
       const timeSinceJoin = Date.now() - member.joinedTimestamp
       const daysSinceJoin = Math.floor(timeSinceJoin / 1000 / 60 / 60 / 24)
       const daysLeft = 7 - daysSinceJoin
+      if (daysLeft >= 7) return
 
       let message = ''
       message += member.toString()
@@ -28,7 +29,7 @@ client.on('ready', async () => {
         } catch(error) {
           console.log(`> Couldn't send a DM to ${member.displayName}`)
         }
-        message += ` you have **1 day** left to send your verification message, and you're really close to being **kicked**. See ${infoChannel} to learn how`
+        message += ` you have **1 day** left to send your verification message, and you're really close to being **kicked**. See ${infoChannel} to learn more`
       } else {
         if (member.kickable) {
           await member.kick()
