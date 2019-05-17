@@ -1,4 +1,5 @@
 const Discord = require('discord.js')
+const cron = require('node-cron')
 const client = new Discord.Client()
 
 client.on('ready', async () => {
@@ -10,7 +11,7 @@ client.on('ready', async () => {
   const infoChannel = guild.channels.get('559771387766505472')
   const messageChannel = guild.channels.get('572967189053702163')
 
-  setInterval(async () => {
+  cron.schedule('0 8 * * *', async () => {
     console.log('> Checking users')
     wanderingRole.members.forEach(async (member) => {
       const timeSinceJoin = Date.now() - member.joinedTimestamp
@@ -42,7 +43,7 @@ client.on('ready', async () => {
       }
       await messageChannel.send(message)
     })
-  }, 24 * 60 * 60 * 1000)
+  })
 })
 
 client.login(process.env.TOKEN)
