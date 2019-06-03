@@ -7,5 +7,4 @@ COPY yarn.lock ./
 RUN yarn
 
 COPY . .
-ENV TOKEN NTc4NzIyNjE2Njc2ODQzNTIy.XN3vpQ.SXp0UdRMbJu77fv_xMwcJ5QLBEg
 CMD [ "node", "index.js" ]

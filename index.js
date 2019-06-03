@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const Discord = require('discord.js')
 const cron = require('node-cron')
 const client = new Discord.Client()
@@ -51,8 +53,6 @@ client.on('ready', async () => {
   }
 
   cron.schedule('0 8 * * *', task)
-
-  task()
 })
 
-client.login(process.env.TOKEN)
+client.login(process.env.BOT_TOKEN)
