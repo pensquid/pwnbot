@@ -7,13 +7,16 @@ client.on('ready', async () => {
   client.user.setActivity('unverified members', { type: 'WATCHING' })
 
   const guild = client.guilds.get('520444262685474816')
-  const wanderingRole = guild.roles.get('563143582765023232')
   const superRole = guild.roles.get('520452795250507795')
   const infoChannel = guild.channels.get('559771387766505472')
   const messageChannel = guild.channels.get('572967189053702163')
 
-  cron.schedule('0 8 * * *', async () => {
+  const task = async () => {
     console.log('> Checking users')
+
+    const newGuild = await guild.fetchMembers()
+    const wanderingRole = newGuild.roles.get('563143582765023232')
+
     wanderingRole.members.forEach(async (member) => {
       const timeSinceJoin = Date.now() - member.joinedTimestamp
       const daysSinceJoin = Math.floor(timeSinceJoin / 1000 / 60 / 60 / 24)
@@ -45,7 +48,11 @@ client.on('ready', async () => {
       }
       await messageChannel.send(message)
     })
-  })
+  }
+
+  cron.schedule('0 8 * * *', task)
+
+  task()
 })
 
 client.login(process.env.TOKEN)
