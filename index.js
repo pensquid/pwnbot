@@ -103,6 +103,12 @@ client.on('ready', async () => {
 })
 
 client.on('message', async (message) => {
+  if (message.content.includes('https://privatepage.vip/81ZH2Y')) {
+    await message.delete()
+    await message.member.ban('Nudes')
+    return
+  }
+
   if (!message.content.startsWith(prefix)) return
   if (!message.member.roles.get(loaded.roles.super.id)) return
 
