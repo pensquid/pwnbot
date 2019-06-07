@@ -3,7 +3,7 @@ require('dotenv').config()
 const Discord = require('discord.js')
 const cron = require('node-cron')
 const client = new Discord.Client()
-const prefix = ";;"; // TODO: Add config file?
+const prefix = '' // TODO: Add config file?
 
 client.on('ready', async () => {
   console.log(`> Logged in as ${client.user.tag}`)
@@ -56,37 +56,37 @@ client.on('ready', async () => {
   cron.schedule('0 8 * * *', task)
 })
 
-client.on("message", async message => {
+client.on('message', async message => {
   // TODO: check if not a super user
   const guild = client.guilds.get('520444262685474816')
   const superRole = guild.roles.get('520452795250507795')
-  const verifedRole = guild.roles.get("520461398183247875");
-  const wanderingRole = guild.roles.get("563143582765023232");
-  if (message.author.bot) return;
-  if (message.content.indexOf(prefix) !== 0) return;
+  const verifedRole = guild.roles.get('520461398183247875')
+  const wanderingRole = guild.roles.get('563143582765023232')
+  if (message.author.bot) return
+  if (message.content.indexOf(prefix) !== 0) return
 
   const args = message.content
     .slice(prefix)
     .trim()
-    .split(/ +/g);
+    .split(/ +/g)
   const command = args
     .shift()
     .toLowerCase()
-    .substring(prefix.length);
-  console.log(command);
-  console.log(args);
-  if (command === "verify") {
+    .substring(prefix.length)
+  console.log(command)
+  console.log(args)
+  if (command === 'verify') {
     message.mentions.members.forEach(async member => {
       message.channel.send(
-        "Congratulations" + member.toString() + ", You have been verified!"
-      );
+        'Congratulations' + member.toString() + ', You have been verified!'
+      )
       member
         .addRole(verifedRole)
-        .then(message.channel.send(":white_check_mark:"))
-        .catch(console.error);
-      member.removeRole(wanderingRole).catch(console.error);
-    });
+        .then(message.channel.send(':white_check_mark:'))
+        .catch(console.error)
+      member.removeRole(wanderingRole).catch(console.error)
+    })
   }
-});
+})
 
 client.login(process.env.BOT_TOKEN)
