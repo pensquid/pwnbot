@@ -137,6 +137,11 @@ client.on('message', async (message) => {
       if (member.roles.get(loaded.roles.verified.id)) {
         await message.channel.send(`${loaded.emojis.no} ${member} is verified, so you can't reject them! You may want to kick them instead.`)
       } else {
+        try {
+          await member.send('Sorry, but your application has been rejected. If you think you can do better fill out the form again. ')
+        } catch(error) {
+          console.log(`> Couldn't send a DM to ${member.displayName}`)
+        }
         await message.channel.send(`${loaded.emojis.yes} ${member} has been rejected.`)
       }
     }
