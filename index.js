@@ -116,12 +116,13 @@ client.on('message', async (message) => {
   if (!message.member.roles.get(loaded.roles.super.id)) return
 
   const members = message.mentions.members
-  if (members.length < 1) {
-    await message.channel.send(`${loaded.emojis.no} You must specify a member!`)
-    return
-  }
 
   if (message.content.startsWith(`${prefix}verify`)) {
+    if (members.size < 1) {
+      await message.channel.send(`${loaded.emojis.no} You must specify a member to verify!`)
+      return
+    }
+
     for (let [ _, member ] of members) {
       if (member.roles.get(loaded.roles.verified.id)) {
         await message.channel.send(`${loaded.emojis.no} ${member} is already verified!`)
@@ -133,6 +134,11 @@ client.on('message', async (message) => {
       }
     }
   } else if (message.content.startsWith(`${prefix}reject`)) {
+    if (members.size < 1) {
+      await message.channel.send(`${loaded.emojis.no} You must specify a member to reject!`)
+      return
+    }
+
     for (let [ _, member ] of members) {
       if (member.roles.get(loaded.roles.verified.id)) {
         await message.channel.send(`${loaded.emojis.no} ${member} is verified, so you can't reject them! You may want to kick them instead.`)
@@ -142,6 +148,7 @@ client.on('message', async (message) => {
         } catch(error) {
           console.log(`> Couldn't send a DM to ${member.displayName}`)
         }
+        await member.kick()
         await message.channel.send(`${loaded.emojis.yes} ${member} has been rejected.`)
       }
     }
