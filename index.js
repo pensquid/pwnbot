@@ -79,6 +79,7 @@ client.on('ready', async () => {
 
 client.on('message', async (message) => {
   if (!message.content.startsWith(prefix)) return
+  if (!message.member.roles.get(loaded.roles.super.id)) return
 
   const members = message.mentions.members
   if (members.length < 1) {
