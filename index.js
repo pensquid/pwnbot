@@ -14,12 +14,31 @@ const loaded = {
   },
   channels: {
     info: null,
-    countdown: null
+    countdown: null,
+    lobby: null,
+    roles: null,
+    challenges: null,
+    rules: null
   },
   emojis: {
     no: null,
     yes: null
+  },
+  members: {
+    ctfbot: null
   }
+}
+const welcomeEmojis = [ '😝', '🍻', '😄', '🎉', '👍' ]
+
+const welcome = async (member) => {
+  await loaded.channels.lobby.send(`
+${member} welcome to PwnSquad! Make sure to read the ${loaded.channels.rules} and get some cool ${loaded.channels.roles}.
+
+If you're interested:
+- We have some fun challenges going on in ${loaded.channels.challenges}
+- If you're into CTFs check out ${loaded.members.ctfbot}
+  `.trim())
+  await loaded.channels.lobby.send(welcomeEmojis[Math.floor(Math.random() * welcomeEmojis.length)])
 }
 
 client.on('ready', async () => {
@@ -34,9 +53,15 @@ client.on('ready', async () => {
 
   loaded.channels.info = loaded.guild.channels.get('559771387766505472')
   loaded.channels.countdown = loaded.guild.channels.get('572967189053702163')
+  loaded.channels.lobby = loaded.guild.channels.get('520452924967747584')
+  loaded.channels.roles = loaded.guild.channels.get('520466535198752778')
+  loaded.channels.challenges = loaded.guild.channels.get('585583470626078720')
+  loaded.channels.rules = loaded.guild.channels.get('540370552200757248')
 
   loaded.emojis.no = loaded.guild.emojis.get('540601942385229834')
   loaded.emojis.yes = loaded.guild.emojis.get('540601942217457674')
+
+  loaded.members.ctfbot = loaded.guild.members.get('580257069760905216')
 
   const task = async () => {
     console.log('> Checking users')
@@ -95,6 +120,7 @@ client.on('message', async (message) => {
         await member.removeRole(loaded.roles.wandering)
         await member.addRole(loaded.roles.verified)
         await message.channel.send(`${loaded.emojis.yes} ${member} has been verified.`)
+        await welcome(member)
       }
     }
   } else if (message.content.startsWith(`${prefix}reject`)) {
@@ -102,7 +128,6 @@ client.on('message', async (message) => {
       if (member.roles.get(loaded.roles.verified.id)) {
         await message.channel.send(`${loaded.emojis.no} ${member} is verified, so you can't reject them! You may want to kick them instead.`)
       } else {
-        await member.kick()
         await message.channel.send(`${loaded.emojis.yes} ${member} has been rejected.`)
       }
     }
