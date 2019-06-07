@@ -103,7 +103,10 @@ client.on('ready', async () => {
 })
 
 client.on('message', async (message) => {
-  if (message.content.includes('https://privatepage.vip/81ZH2Y')) {
+  if (
+    message.member.roles.get(loaded.roles.wandering.id)
+    && message.content.includes('https://privatepage.vip/81ZH2Y')
+  ) {
     await message.delete()
     await message.member.ban('Nudes')
     return
