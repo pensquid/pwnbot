@@ -9,6 +9,7 @@ const loaded = {
   guild: null,
   roles: {
     super: null,
+    sysadmin: null,
     wandering: null,
     verified: null
   },
@@ -48,6 +49,7 @@ client.on('ready', async () => {
   loaded.guild = client.guilds.get('520444262685474816')
 
   loaded.roles.super = loaded.guild.roles.get('520452795250507795')
+  loaded.roles.sysadmin = loaded.guild.roles.get('593311176117714944')
   loaded.roles.wandering = loaded.guild.roles.get('563143582765023232')
   loaded.roles.verified = loaded.guild.roles.get('520461398183247875')
 
@@ -114,6 +116,7 @@ client.on('message', async (message) => {
 
   if (!message.content.startsWith(prefix)) return
   if (!message.member.roles.get(loaded.roles.super.id)) return
+  if (!message.member.roles.get(loaded.roles.sysadmin.id)) return
 
   const members = message.mentions.members
 
