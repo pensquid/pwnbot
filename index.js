@@ -17,7 +17,8 @@ const loaded = {
     countdown: null,
     lobby: null,
     roles: null,
-    challenges: null,
+    giveaways: null,
+    br: null,
     rules: null
   },
   emojis: {
@@ -31,14 +32,17 @@ const loaded = {
 const welcomeEmojis = [ '😝', '🍻', '😄', '🎉', '👍', '🤠', '👋', '🤖', '👊' ]
 
 const welcome = async (member) => {
+  await loaded.channels.lobby.send(welcomeEmojis[Math.floor(Math.random() * welcomeEmojis.length)])
   await loaded.channels.lobby.send(`
 ${member} welcome to PwnSquad! Make sure to read the ${loaded.channels.rules} and get some cool ${loaded.channels.roles}.
 
 If you're interested:
-- We have some fun challenges going on in ${loaded.channels.challenges}
+- We usually have giveaways going on in ${loaded.channels.giveaways}
+- ${loaded.channels.br} contains helpful resources if you're just starting out
 - If you're into CTFs check out ${loaded.members.ctfbot}
+
+**If you want to participate in giveaways and the like, run \`;;role ping\`!**
   `.trim())
-  await loaded.channels.lobby.send(welcomeEmojis[Math.floor(Math.random() * welcomeEmojis.length)])
 }
 
 client.on('ready', async () => {
@@ -55,7 +59,8 @@ client.on('ready', async () => {
   loaded.channels.countdown = loaded.guild.channels.get('572967189053702163')
   loaded.channels.lobby = loaded.guild.channels.get('520452924967747584')
   loaded.channels.roles = loaded.guild.channels.get('520466535198752778')
-  loaded.channels.challenges = loaded.guild.channels.get('585583470626078720')
+  loaded.channels.giveaways = loaded.guild.channels.get('577225038621704241')
+  loaded.channels.br = loaded.guild.channels.get('520452891471773697')
   loaded.channels.rules = loaded.guild.channels.get('540370552200757248')
 
   loaded.emojis.no = loaded.guild.emojis.get('540601942385229834')
