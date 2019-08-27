@@ -28,7 +28,7 @@ const loaded = {
     ctfbot: null
   }
 }
-const welcomeEmojis = [ '😝', '🍻', '😄', '🎉', '👍' ]
+const welcomeEmojis = [ '😝', '🍻', '😄', '🎉', '👍', '🤠', '👋', '🤖', '👊' ]
 
 const welcome = async (member) => {
   await loaded.channels.lobby.send(`
