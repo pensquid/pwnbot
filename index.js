@@ -125,7 +125,12 @@ client.on('message', async (message) => {
     return
   }
 
-  if (message.content.replace(/[^a-zA-Z\d:]+/g, '').toLowerCase() === 'dontasktoask') {
+  const dumbContent = message.content.replace(/[^a-zA-Z\d:]+/g, '').toLowerCase()
+  if (
+    dumbContent === 'dontasktoask'
+    || dumbContent === 'donotasktoask'
+    || dumbContent === 'noaskingtoask'
+  ) {
     await message.channel.send('https://pwnsquad.net/data/')
     return
   }
