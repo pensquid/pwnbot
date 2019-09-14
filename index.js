@@ -120,6 +120,11 @@ client.on('message', async (message) => {
     return
   }
 
+  if (message.content === '[[ test welcome ]]') {
+    await welcome(message.member)
+    return
+  }
+
   if (!message.content.startsWith(prefix)) return
   if (!message.member.roles.get(loaded.roles.super.id)) return
 
@@ -160,8 +165,6 @@ client.on('message', async (message) => {
         await message.channel.send(`${loaded.emojis.yes} ${member} has been rejected.`)
       }
     }
-  } else if (message.content === '[[ test welcome ]]') {
-    await welcome(message.member)
   }
 })
 
