@@ -19,7 +19,8 @@ const loaded = {
     roles: null,
     giveaways: null,
     br: null,
-    rules: null
+    rules: null,
+    jam: null
   },
   emojis: {
     no: null,
@@ -40,8 +41,9 @@ If you're interested:
 - We usually have giveaways going on in ${loaded.channels.giveaways}
 - ${loaded.channels.br} contains helpful resources if you're just starting out
 - If you're into CTFs check out ${loaded.members.ctfbot}
+- If you want to participate in giveaways and the like, run \`;;role ping\`!
 
-**If you want to participate in giveaways and the like, run \`;;role ping\`!**
+**Make sure to check out ${loaded.channels.jam} - we're running a contest for people of all skillsets with big prizes!**
   `.trim())
 }
 
@@ -62,11 +64,12 @@ client.on('ready', async () => {
   loaded.channels.giveaways = loaded.guild.channels.get('577225038621704241')
   loaded.channels.br = loaded.guild.channels.get('520452891471773697')
   loaded.channels.rules = loaded.guild.channels.get('540370552200757248')
+  loaded.channels.jam = loaded.guild.channels.get('621350573861502986')
 
   loaded.emojis.no = loaded.guild.emojis.get('540601942385229834')
   loaded.emojis.yes = loaded.guild.emojis.get('540601942217457674')
-
   loaded.members.ctfbot = loaded.guild.members.get('580257069760905216')
+
 
   const task = async () => {
     console.log('> Checking users')
@@ -157,6 +160,8 @@ client.on('message', async (message) => {
         await message.channel.send(`${loaded.emojis.yes} ${member} has been rejected.`)
       }
     }
+  } else if (message.content === '[[ test welcome ]]') {
+    await welcome(message.member)
   }
 })
 
