@@ -30,7 +30,7 @@ const loaded = {
     ctfbot: null
   }
 }
-const welcomeEmojis = [ '😝', '🍻', '😄', '🎉', '👍', '🤠', '👋', '🤖', '👊' ]
+const welcomeEmojis = ['😝', '🍻', '😄', '🎉', '👍', '🤠', '👋', '🤖', '👊']
 
 const welcome = async (member) => {
   await loaded.channels.lobby.send(welcomeEmojis[Math.floor(Math.random() * welcomeEmojis.length)])
@@ -90,7 +90,7 @@ client.on('ready', async () => {
       } else if (daysLeft === 1) {
         try {
           await member.send(`Just a friendly reminder, you only have **1 day** left to become verified on PwnSquad or you'll be **kicked**! *Don't worry, all you have to do is tell us a little about yourself :)*`)
-        } catch(error) {
+        } catch (error) {
           console.log(`> Couldn't send a DM to ${member.displayName}`)
         }
         message += ` you have **1 day** left to send your verification message, and you're really close to being **kicked**. See ${loaded.channels.info} to learn more`
@@ -98,7 +98,7 @@ client.on('ready', async () => {
         await member.kick()
         try {
           await member.send(`Sorry, but you've kicked from PwnSquad for not sending your verification message fast enough. In our defense, we warned you ahread of time! *If you want to try again feel free to join back*`)
-        } catch(error) {
+        } catch (error) {
           console.log(`> Couldn't send a DM to ${member.displayName}`)
         }
         return
@@ -125,6 +125,11 @@ client.on('message', async (message) => {
     return
   }
 
+  if (message.content.replace(/[^a-zA-Z\d:]+/g, '').toLowerCase() === 'dontasktoask') {
+    await message.channel.send('https://pwnsquad.net/data/')
+    return
+  }
+
   if (!message.content.startsWith(prefix)) return
   if (!message.member.roles.get(loaded.roles.super.id)) return
 
@@ -136,7 +141,7 @@ client.on('message', async (message) => {
       return
     }
 
-    for (let [ _, member ] of members) {
+    for (let [_, member] of members) {
       if (member.roles.get(loaded.roles.verified.id)) {
         await message.channel.send(`${loaded.emojis.no} ${member} is already verified!`)
       } else {
@@ -152,13 +157,13 @@ client.on('message', async (message) => {
       return
     }
 
-    for (let [ _, member ] of members) {
+    for (let [_, member] of members) {
       if (member.roles.get(loaded.roles.verified.id)) {
         await message.channel.send(`${loaded.emojis.no} ${member} is verified, so you can't reject them! You may want to kick them instead.`)
       } else {
         try {
           await member.send('Sorry, but your application has been rejected. If you think you can do better, join PwnSquad and try again.')
-        } catch(error) {
+        } catch (error) {
           console.log(`> Couldn't send a DM to ${member.displayName}`)
         }
         await member.kick()
