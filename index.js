@@ -53,7 +53,7 @@ client.on('ready', async () => {
 
   loaded.guild = client.guilds.get('520444262685474816')
 
-  loaded.roles.super = loaded.guild.roles.get('520452795250507795')
+  loaded.roles.super = loaded.guild.roles.get('630212418072739861')
   loaded.roles.wandering = loaded.guild.roles.get('563143582765023232')
   loaded.roles.verified = loaded.guild.roles.get('520461398183247875')
 
