@@ -155,12 +155,12 @@ client.on('message', async (message) => {
     const { balances } = await res.json()
     balances.sort((a, b) => a.amount > b.amount ? -1 : 1)
 
-    const firstTenBalances = balances
+    const firstTenBalances = await Promise.all(balances
       .slice(0, 10)
       .map(async ({ id, amount }) => ({
         user: await client.fetchUser(id),
         amount
-      }))
+      })))
     const leaders = firstTenBalances
       .map(({ user, amount }, index) => {
         return `${index + 1}. \`${user.tag}\` has **${amount}** PwnCoin`
