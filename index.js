@@ -76,7 +76,6 @@ client.on('ready', async () => {
   loaded.emojis.pwncoin = loaded.guild.emojis.get('646199089951670293')
   loaded.members.ctfbot = loaded.guild.members.get('580257069760905216')
 
-
   const task = async () => {
     console.log('> Checking users')
 
@@ -168,7 +167,6 @@ client.on('message', async (message) => {
 
     await message.channel.send(`There's **${total}** ${loaded.emojis.pwncoin} in circulation!`)
   }
-  return
 
   if (!message.member.roles.get(loaded.roles.super.id)) return
 
