@@ -142,6 +142,34 @@ client.on('message', async (message) => {
   }
 
   if (!message.content.startsWith(prefix)) return
+
+  if (message.content.startsWith(`${prefix}bal`)) {
+    const user = message.mentions.users.first() || message.author
+    const res = await fetch(apiUrl)
+    const { balances } = await res.json()
+    const balance = balances.find(({ id }) => id === user.id)
+    const amount = balance ? balance.amount : 0
+
+    await message.channel.send(`${user} has **${amount}** ${loaded.emojis.pwncoin}`)
+  } else if (message.content.startsWith(`${prefix}lead`)) {
+    const res = await fetch(apiUrl)
+    const { balances } = await res.json()
+    balances.sort((a, b) => a.amount > b.amount ? -1 : 1)
+
+    const leaders = balances.slice(0, 10).map(({ id, amount }, index) => {
+      return `${index + 1}. <@${id}> has **${amount}** PwnCoin`
+    }).join('\n')
+
+    await message.channel.send(`${loaded.emojis.pwncoin} **Leaderboard:**\n${leaders}`)
+  } else if (message.content.startsWith(`${prefix}tot`)) {
+    const res = await fetch(apiUrl)
+    const { balances } = await res.json()
+    const total = balances.reduce((p, c) => p += c.amount, 0)
+
+    await message.channel.send(`There's **${total}** ${loaded.emojis.pwncoin} in circulation!`)
+  }
+  return
+
   if (!message.member.roles.get(loaded.roles.super.id)) return
 
   const members = message.mentions.members
@@ -181,30 +209,6 @@ client.on('message', async (message) => {
         await message.channel.send(`${loaded.emojis.yes} ${member} has been rejected.`)
       }
     }
-  } else if (message.content.startsWith(`${prefix}bal`)) {
-    const user = message.mentions.users.first() || message.author
-    const res = await fetch(apiUrl)
-    const { balances } = await res.json()
-    const balance = balances.find(({ id }) => id === user.id)
-    const amount = balance ? balance.amount : 0
-
-    await message.channel.send(`${user} has **${amount}** ${loaded.emojis.pwncoin}`)
-  } else if (message.content.startsWith(`${prefix}lead`)) {
-    const res = await fetch(apiUrl)
-    const { balances } = await res.json()
-    balances.sort((a, b) => a.amount > b.amount ? -1 : 1)
-
-    const leaders = balances.slice(0, 10).map(({ id, amount }, index) => {
-      return `${index + 1}. <@${id}> has **${amount}** PwnCoin`
-    }).join('\n')
-
-    await message.channel.send(`${loaded.emojis.pwncoin} **Leaderboard:**\n${leaders}`)
-  } else if (message.content.startsWith(`${prefix}tot`)) {
-    const res = await fetch(apiUrl)
-    const { balances } = await res.json()
-    const total = balances.reduce((p, c) => p += c.amount, 0)
-
-    await message.channel.send(`There's **${total}** ${loaded.emojis.pwncoin} in circulation!`)
   }
 })
 
