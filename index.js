@@ -149,15 +149,23 @@ client.on('message', async (message) => {
     const balance = balances.find(({ id }) => id === user.id)
     const amount = balance ? balance.amount : 0
 
-    await message.channel.send(`${user} has **${amount}** ${loaded.emojis.pwncoin}`)
+    await message.channel.send(`\`${user.tag}\` has **${amount}** ${loaded.emojis.pwncoin}`)
   } else if (message.content.startsWith(`${prefix}lead`)) {
     const res = await fetch(apiUrl)
     const { balances } = await res.json()
     balances.sort((a, b) => a.amount > b.amount ? -1 : 1)
 
-    const leaders = balances.slice(0, 10).map(({ id, amount }, index) => {
-      return `${index + 1}. <@${id}> has **${amount}** PwnCoin`
-    }).join('\n')
+    const firstTenBalances = balances
+      .slice(0, 10)
+      .map(async ({ id, amount }) => ({
+        user: await client.fetchUser(id),
+        amount
+      }))
+    const leaders = firstTenBalances
+      .map(({ user, amount }, index) => {
+        return `${index + 1}. \`${user.tag}\` has **${amount}** PwnCoin`
+      })
+      .join('\n')
 
     await message.channel.send(`${loaded.emojis.pwncoin} **Leaderboard:**\n${leaders}`)
   } else if (message.content.startsWith(`${prefix}tot`)) {
