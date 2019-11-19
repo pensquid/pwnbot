@@ -48,7 +48,7 @@ If you're interested:
 - If you're into CTFs check out ${loaded.members.ctfbot}
 - If you want to participate in giveaways and the like, run \`;;role ping\`!
 
-**Make sure to check out ${loaded.channels.jam} - we're running a contest for people of all skillsets with big prizes!**
+**We just introduced PwnCoin! Earn points to get cool stuff by being active and participating in events.**
   `.trim())
 }
 
