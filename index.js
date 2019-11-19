@@ -66,8 +66,8 @@ client.on('ready', async () => {
   loaded.channels.rules = loaded.guild.channels.get('540370552200757248')
   loaded.channels.jam = loaded.guild.channels.get('621350573861502986')
 
-  loaded.emojis.no = loaded.guild.emojis.get('540601942385229834')
-  loaded.emojis.yes = loaded.guild.emojis.get('540601942217457674')
+  loaded.emojis.no = loaded.guild.emojis.get('630451133575331898')
+  loaded.emojis.yes = loaded.guild.emojis.get('630451215037235213')
   loaded.members.ctfbot = loaded.guild.members.get('580257069760905216')
 
 
