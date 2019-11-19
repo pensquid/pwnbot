@@ -2,8 +2,12 @@ require('dotenv').config()
 
 const Discord = require('discord.js')
 const cron = require('node-cron')
+const fetch = require('node-fetch')
+
 const client = new Discord.Client()
+
 const prefix = ';;'
+const apiUrl = 'https://v2-api.sheety.co/fa7b3330a4fd8309592da41028e8dce4/pwnCoin/balances'
 
 const loaded = {
   guild: null,
@@ -24,7 +28,8 @@ const loaded = {
   },
   emojis: {
     no: null,
-    yes: null
+    yes: null,
+    pwncoin: null
   },
   members: {
     ctfbot: null
@@ -68,6 +73,7 @@ client.on('ready', async () => {
 
   loaded.emojis.no = loaded.guild.emojis.get('630451133575331898')
   loaded.emojis.yes = loaded.guild.emojis.get('630451215037235213')
+  loaded.emojis.pwncoin = loaded.guild.emojis.get('646199089951670293')
   loaded.members.ctfbot = loaded.guild.members.get('580257069760905216')
 
 
@@ -175,6 +181,30 @@ client.on('message', async (message) => {
         await message.channel.send(`${loaded.emojis.yes} ${member} has been rejected.`)
       }
     }
+  } else if (message.content.startsWith(`${prefix}bal`)) {
+    const user = message.mentions.users.first() || message.author
+    const res = await fetch(apiUrl)
+    const { balances } = await res.json()
+    const balance = balances.find(({ id }) => id === user.id)
+    const amount = balance ? balance.amount : 0
+
+    await message.channel.send(`${user} has **${amount}** ${loaded.emojis.pwncoin}`)
+  } else if (message.content.startsWith(`${prefix}lead`)) {
+    const res = await fetch(apiUrl)
+    const { balances } = await res.json()
+    balances.sort((a, b) => a.amount > b.amount ? -1 : 1)
+
+    const leaders = balances.slice(0, 10).map(({ id, amount }, index) => {
+      return `${index + 1}. <@${id}> has **${amount}** PwnCoin`
+    }).join('\n')
+
+    await message.channel.send(`${loaded.emojis.pwncoin} **Leaderboard:**\n${leaders}`)
+  } else if (message.content.startsWith(`${prefix}tot`)) {
+    const res = await fetch(apiUrl)
+    const { balances } = await res.json()
+    const total = balances.reduce((p, c) => p += c.amount, 0)
+
+    await message.channel.send(`There's **${total}** ${loaded.emojis.pwncoin} in circulation!`)
   }
 })
 
