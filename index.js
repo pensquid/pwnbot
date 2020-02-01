@@ -17,14 +17,15 @@ const loaded = {
     verified: null
   },
   channels: {
-    info: null,
-    countdown: null,
     lobby: null,
     roles: null,
     giveaways: null,
     br: null,
     rules: null,
     jam: null
+  },
+  categories: {
+    verification: null
   },
   emojis: {
     no: null,
@@ -48,7 +49,7 @@ If you're interested:
 - If you're into CTFs check out ${loaded.members.ctfbot}
 - If you want to participate in giveaways and the like, run \`;;role ping\`!
 
-**We just introduced PwnCoin! Earn points to get cool stuff by being active and participating in events.**
+Stay active and you'll get cool stuff!
   `.trim())
 }
 
@@ -62,14 +63,14 @@ client.on('ready', async () => {
   loaded.roles.wandering = loaded.guild.roles.get('563143582765023232')
   loaded.roles.verified = loaded.guild.roles.get('520461398183247875')
 
-  loaded.channels.info = loaded.guild.channels.get('559771387766505472')
-  loaded.channels.countdown = loaded.guild.channels.get('572967189053702163')
   loaded.channels.lobby = loaded.guild.channels.get('520452924967747584')
   loaded.channels.roles = loaded.guild.channels.get('520466535198752778')
   loaded.channels.giveaways = loaded.guild.channels.get('577225038621704241')
   loaded.channels.br = loaded.guild.channels.get('520452891471773697')
   loaded.channels.rules = loaded.guild.channels.get('540370552200757248')
   loaded.channels.jam = loaded.guild.channels.get('621350573861502986')
+
+  loaded.categories.verification = loaded.guild.channels.get('673054726119751680')
 
   loaded.emojis.no = loaded.guild.emojis.get('630451133575331898')
   loaded.emojis.yes = loaded.guild.emojis.get('630451215037235213')
@@ -88,6 +89,9 @@ client.on('ready', async () => {
       const daysLeft = 7 - daysSinceJoin
       if (daysLeft >= 7) return
 
+      const channel = loaded.guild.channels.find((channel) => channel.name === `limbo-${member.id}`)
+      if (!channel) return
+
       let message = ''
       message += member.toString()
       if (daysLeft > 1) {
@@ -98,7 +102,8 @@ client.on('ready', async () => {
         } catch (error) {
           console.log(`> Couldn't send a DM to ${member.displayName}`)
         }
-        message += ` you have **1 day** left to send your verification message, and you're really close to being **kicked**. See ${loaded.channels.info} to learn more`
+
+        message += ` you have **1 day** left to send your verification message, and you're really close to being **kicked**`
       } else {
         await member.kick()
         try {
@@ -108,23 +113,49 @@ client.on('ready', async () => {
         }
         return
       }
-      await loaded.channels.countdown.send(message)
+
+      await channel.countdown.send(message)
     })
   }
 
   cron.schedule('0 8 * * *', task)
 })
 
-client.on('message', async (message) => {
-  if (
-    message.member.roles.get(loaded.roles.wandering.id)
-    && message.content.includes('81ZH2Y')
-  ) {
-    await message.delete()
-    await message.member.ban('Nudes')
-    return
-  }
+client.on('guildMemberAdd', async (member) => {
+  await member.addRole(loaded.roles.wandering)
 
+  const channel = await loaded.guild.createChannel(`limbo-${member.id}`, {
+    type: 'text',
+    parent: loaded.categories.verification,
+    topic: `This channel was automatically created for ${member.displayName} so they can get verified!`
+  })
+  await channel.lockPermissions()
+  await channel.overwritePermissions(member, {
+    SEND_MESSAGES: true,
+    VIEW_CHANNEL: true
+  })
+
+  await channel.send(`
+${member} **Welcome to PwnSquad!** We're glad you're finally here. Before we can give you access to the rest of the server, we need to make sure you aren't one of the bad ones.
+
+Please tell us:
+- Any programming or hacking knowledge you might have. It's fine if you're new to this!
+- What you're looking to get out of this server and/or why you joined.
+- And any other information you might want to include. Just tell us about yourself.
+
+To help eliminate spam, you'll be automatically kicked in 7 days if you don't answer these questions.
+
+We hope to see you soon! For more information, here's our website: https://pwnsquad.net/
+  `.trim())
+})
+
+client.on('guildMemberRemove', async (member) => {
+  // FIXME: get rid of icky code duplication
+  const channel = loaded.guild.channels.find((channel) => channel.name === `limbo-${member.id}`)
+  if (channel) await channel.delete()
+})
+
+client.on('message', async (message) => {
   if (message.content === '[[ test welcome ]]') {
     await welcome(message.member)
     return
@@ -190,6 +221,13 @@ client.on('message', async (message) => {
       if (member.roles.get(loaded.roles.verified.id)) {
         await message.channel.send(`${loaded.emojis.no} ${member} is already verified!`)
       } else {
+        const channel = loaded.guild.channels.find((channel) => channel.name === `limbo-${member.id}`)
+        if (channel) {
+          await channel.delete()
+        } else {
+          await message.channel.send(`⚠️ Unable to find limbo channel for ${member}.`)
+        }
+
         await member.removeRole(loaded.roles.wandering)
         await member.addRole(loaded.roles.verified)
         await message.channel.send(`${loaded.emojis.yes} ${member} has been verified.`)
