@@ -95,10 +95,11 @@ client.on('ready', async () => {
       let message = ''
       message += member.toString()
       if (daysLeft > 1) {
-        message += ` you have **${daysLeft} days** left to send your verification message! See ${loaded.channels.info} to learn how`
+        message += ` you have **${daysLeft} days** left to send your verification message! See the message at the top to learn how`
       } else if (daysLeft === 1) {
         try {
           await member.send(`Just a friendly reminder, you only have **1 day** left to become verified on PwnSquad or you'll be **kicked**! *Don't worry, all you have to do is tell us a little about yourself :)*`)
+          return
         } catch (error) {
           console.log(`> Couldn't send a DM to ${member.displayName}`)
         }
