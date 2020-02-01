@@ -145,7 +145,7 @@ Please tell us:
 
 To help eliminate spam, you'll be automatically kicked in 7 days if you don't answer these questions.
 
-We hope to see you soon! For more information, here's our website: https://pwnsquad.net/
+We hope to see you soon! For more information, here's our website: <https://pwnsquad.net/>
   `.trim())
 })
 
