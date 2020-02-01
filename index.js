@@ -114,7 +114,7 @@ client.on('ready', async () => {
         return
       }
 
-      await channel.countdown.send(message)
+      await channel.send(message)
     })
   }
 
@@ -225,13 +225,16 @@ client.on('message', async (message) => {
         if (channel) {
           await channel.delete()
         } else {
-          await message.channel.send(`⚠️ Unable to find limbo channel for ${member}.`)
+          await message.member.send(`⚠️ Unable to find limbo channel for ${member}.`)
         }
-
+        console.log('before')
         await member.removeRole(loaded.roles.wandering)
         await member.addRole(loaded.roles.verified)
-        await message.channel.send(`${loaded.emojis.yes} ${member} has been verified.`)
+        await message.member.send(`${loaded.emojis.yes} ${member} has been verified.`)
         await welcome(member)
+        try {
+          if (message.deletable) await message.delete()
+        } catch (_) {}
       }
     }
   } else if (message.content.startsWith(`${prefix}reject`)) {
@@ -250,7 +253,10 @@ client.on('message', async (message) => {
           console.log(`> Couldn't send a DM to ${member.displayName}`)
         }
         await member.kick()
-        await message.channel.send(`${loaded.emojis.yes} ${member} has been rejected.`)
+        await message.member.send(`${loaded.emojis.yes} ${member} has been rejected.`)
+        try {
+          if (message.deletable) await message.delete()
+        } catch (_) {}
       }
     }
   }
