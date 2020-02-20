@@ -86,8 +86,8 @@ client.on('ready', async () => {
     freshWanderingRole.members.forEach(async (member) => {
       const timeSinceJoin = Date.now() - member.joinedTimestamp
       const daysSinceJoin = Math.floor(timeSinceJoin / 1000 / 60 / 60 / 24)
-      const daysLeft = 7 - daysSinceJoin
-      if (daysLeft >= 7) return
+      const daysLeft = 3 - daysSinceJoin
+      if (daysLeft >= 3) return
 
       const channel = loaded.guild.channels.find((channel) => channel.name === `limbo-${member.id}`)
       if (!channel) return
