@@ -22,7 +22,8 @@ const loaded = {
     giveaways: null,
     br: null,
     rules: null,
-    jam: null
+    jam: null,
+    counting: null
   },
   categories: {
     verification: null
@@ -69,6 +70,7 @@ client.on('ready', async () => {
   loaded.channels.br = loaded.guild.channels.get('520452891471773697')
   loaded.channels.rules = loaded.guild.channels.get('540370552200757248')
   loaded.channels.jam = loaded.guild.channels.get('621350573861502986')
+  loaded.channels.counting = loaded.guild.channels.get('591333906431606789')
 
   loaded.categories.verification = loaded.guild.channels.get('673054726119751680')
 
@@ -157,6 +159,18 @@ client.on('guildMemberRemove', async (member) => {
 })
 
 client.on('message', async (message) => {
+  if (message.channel === loaded.channels.counting) {
+    const lastMessages = await message.channel.fetchMessages({ limit: 2 })
+    const parsedLast = parseInt(lastMessages.last().content)
+    const parsedCurrent = parseInt(message.content)
+
+    if (parsedCurrent - parsedLast !== 1) {
+      await message.delete()
+    }
+
+    return
+  }
+
   if (message.content === '[[ test welcome ]]') {
     await welcome(message.member)
     return
@@ -228,7 +242,6 @@ client.on('message', async (message) => {
         } else {
           await message.member.send(`⚠️ Unable to find limbo channel for ${member}.`)
         }
-        console.log('before')
         await member.removeRole(loaded.roles.wandering)
         await member.addRole(loaded.roles.verified)
         await message.member.send(`${loaded.emojis.yes} ${member} has been verified.`)
