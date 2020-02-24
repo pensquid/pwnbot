@@ -161,10 +161,12 @@ client.on('guildMemberRemove', async (member) => {
 client.on('message', async (message) => {
   if (message.channel === loaded.channels.counting) {
     const lastMessages = await message.channel.fetchMessages({ limit: 2 })
-    const parsedLast = parseInt(lastMessages.last().content)
+    const last = lastMessages.last()
+
+    const parsedLast = parseInt(last.content)
     const parsedCurrent = parseInt(message.content)
 
-    if (parsedCurrent - parsedLast !== 1) {
+    if (parsedCurrent - parsedLast !== 1 || last.author === message.author) {
       await message.delete()
     }
 
