@@ -124,7 +124,7 @@ client.on('ready', async () => {
   cron.schedule('0 8 * * *', task)
 })
 
-client.on('guildMemberAdd', async (member) => {
+const queue = async (member) => {
   await member.addRole(loaded.roles.wandering)
 
   const channel = await loaded.guild.createChannel(`limbo-${member.id}`, {
@@ -150,6 +150,10 @@ To help eliminate spam, you'll be automatically kicked in 7 days if you don't an
 
 We hope to see you soon! For more information, here's our website: <https://pwnsquad.net/>
   `.trim())
+}
+
+client.on('guildMemberAdd', async (member) => {
+  queue(member)
 })
 
 client.on('guildMemberRemove', async (member) => {
@@ -274,6 +278,31 @@ client.on('message', async (message) => {
           if (message.deletable) await message.delete()
         } catch (_) {}
       }
+    }
+  } else if (message.content.startsWith(`${prefix}queue`)) {
+    try {
+      if (message.deletable) await message.delete()
+    } catch (_) {}
+    
+    if (members.size < 1) {
+      try {
+        await message.member.send(`${loaded.emojis.no} You must specify a member to manually queue!`)
+      } catch (_) {}
+      return
+    }
+    
+    const promises = []
+    for (let [_, member] of members) {
+      try {
+        if (member.roles.get(loaded.roles.verified.id)) {
+          await message.member.send(`${loaded.emojis.no} ${member} is verified, so you can't manually queue them!`)
+        } else if (members.roles.get(loaded.roles.wandering.id)) {
+          await message.member.send(`${loaded.emojis.no} ${member} is already queued, so you can't manually queue them!`)
+        } else {
+          promises.push(queue(member))
+          await message.member.send(`${loaded.emojis.yes} ${member} has been queued.`)
+        }
+      } catch (_) {}
     }
   }
 })
