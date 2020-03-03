@@ -230,7 +230,8 @@ client.on('message', async (message) => {
 
   if (!message.member.roles.get(loaded.roles.super.id)) return
 
-  const members = message.mentions.members
+  const users = message.mentions.users
+  const members = await Promise.all(users.toArray().map((user) => loaded.guild.fetchMember(user)))
 
   if (message.content.startsWith(`${prefix}verify`)) {
     if (members.size < 1) {
@@ -238,7 +239,7 @@ client.on('message', async (message) => {
       return
     }
 
-    for (let [_, member] of members) {
+    for (let member of members) {
       if (member.roles.get(loaded.roles.verified.id)) {
         await message.channel.send(`${loaded.emojis.no} ${member} is already verified!`)
       } else {
@@ -263,7 +264,7 @@ client.on('message', async (message) => {
       return
     }
 
-    for (let [_, member] of members) {
+    for (let member of members) {
       if (member.roles.get(loaded.roles.verified.id)) {
         await message.channel.send(`${loaded.emojis.no} ${member} is verified, so you can't reject them! You may want to kick them instead.`)
       } else {
@@ -291,7 +292,7 @@ client.on('message', async (message) => {
       return
     }
     
-    for (let [_, member] of members) {
+    for (let member of members) {
       try {
         if (member.roles.get(loaded.roles.verified.id)) {
           await message.member.send(`${loaded.emojis.no} ${member} is verified, so you can't manually queue them!`)
