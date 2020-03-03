@@ -291,7 +291,6 @@ client.on('message', async (message) => {
       return
     }
     
-    const promises = []
     for (let [_, member] of members) {
       try {
         if (member.roles.get(loaded.roles.verified.id)) {
@@ -299,12 +298,13 @@ client.on('message', async (message) => {
         } else if (member.roles.get(loaded.roles.wandering.id)) {
           await message.member.send(`${loaded.emojis.no} ${member} is already queued, so you can't manually queue them!`)
         } else {
-          promises.push(queue(member))
+          await queue(member)
           await message.member.send(`${loaded.emojis.yes} ${member} has been queued.`)
         }
-      } catch (_) {}
+      } catch (error) {
+        console.log(error)
+      }
     }
-    await Promise.all(promises)
   }
 })
 
