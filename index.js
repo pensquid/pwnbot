@@ -302,7 +302,7 @@ client.on('message', async (message) => {
           promises.push(queue(member))
           await message.member.send(`${loaded.emojis.yes} ${member} has been queued.`)
         }
-      } catch (e) {console.log(e)}
+      } catch (_) {}
     }
     await Promise.all(promises)
   }
