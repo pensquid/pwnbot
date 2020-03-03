@@ -296,7 +296,7 @@ client.on('message', async (message) => {
       try {
         if (member.roles.get(loaded.roles.verified.id)) {
           await message.member.send(`${loaded.emojis.no} ${member} is verified, so you can't manually queue them!`)
-        } else if (members.roles.get(loaded.roles.wandering.id)) {
+        } else if (member.roles.get(loaded.roles.wandering.id)) {
           await message.member.send(`${loaded.emojis.no} ${member} is already queued, so you can't manually queue them!`)
         } else {
           promises.push(queue(member))
