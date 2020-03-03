@@ -231,7 +231,7 @@ client.on('message', async (message) => {
   if (!message.member.roles.get(loaded.roles.super.id)) return
 
   const users = message.mentions.users
-  const members = await Promise.all(users.toArray().map((user) => loaded.guild.fetchMember(user)))
+  const members = await Promise.all(users.map((user) => loaded.guild.fetchMember(user)))
 
   if (message.content.startsWith(`${prefix}verify`)) {
     if (members.size < 1) {
