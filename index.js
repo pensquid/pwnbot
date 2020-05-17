@@ -162,13 +162,25 @@ client.on('guildMemberRemove', async (member) => {
   if (channel) await channel.delete()
 })
 
+const betterParseInt = (number) => {
+  if (number.startsWith('0x')) {
+    return parseInt(number.slice(2), 16)
+  } else if (number.startsWith('0b')) {
+    return parseInt(number.slice(2), 2)
+  } else if (number.startsWith('0o')) {
+    return parseInt(number.slice(2), 8)
+  } else {
+    return parseInt(number)
+  }
+}
+
 client.on('message', async (message) => {
   if (message.channel === loaded.channels.counting) {
     const lastMessages = await message.channel.fetchMessages({ limit: 2 })
     const last = lastMessages.last()
 
-    const parsedLast = parseInt(last.content)
-    const parsedCurrent = parseInt(message.content)
+    const parsedLast = betterParseInt(last.content)
+    const parsedCurrent = betterParseInt(message.content)
 
     if (parsedCurrent - parsedLast !== 1 || last.author === message.author) {
       await message.delete()
