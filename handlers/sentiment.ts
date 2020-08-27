@@ -1,6 +1,6 @@
 import { Message } from 'discord.js'
 import { BaseHandler } from './_base'
-import { getToxicity, hasRole } from '../util'
+import { getWarnableIntent } from '../util'
 
 export class SentimentHandler extends BaseHandler {
   _name = 'sentiment'
@@ -12,18 +12,17 @@ export class SentimentHandler extends BaseHandler {
   async onMessage(message: Message) {
     if (message.author.bot) return false
     
-    const toxicity = await getToxicity(message.content)
-    if (toxicity < 0.35) return false
+    const type = await getWarnableIntent(message.content)
+    if (!type) return false
 
     await this.loaded.channels.reports.send(`
-**This message by ${message.member} in ${message.channel} has been detected as potentially toxic:**
+**This message by ${message.member} in ${message.channel} has been detected as type ${type}:**
 ${message.content}
 
-These toxicity predictions are wildly accurate so no action has been taken
-Toxicity score: ${toxicity}
+These are wildly inaccurate so nothing has been done
 Message link: https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id}
     `.trim())
 
-    return true
+    return false
   }
 }

@@ -71,7 +71,7 @@ export const getNonContentWarningText = (content: string): string => {
   return outsideSpoiler
 }
 
-export const getToxicity = async (text: string): Promise<number> => {
+export const getWarnableIntent = async (text: string): Promise<string | null> => {
   const res = await fetch(`https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${encodeURIComponent(process.env.PERSPECTIVE_KEY as string)}`, {
     method: 'POST',
     headers: {
@@ -80,12 +80,23 @@ export const getToxicity = async (text: string): Promise<number> => {
     body: JSON.stringify({
       comment: { text },
       languages: [ 'en' ],
-      requestedAttributes: { TOXICITY: {} }
+      requestedAttributes: {
+        IDENTITY_ATTACK: {},
+        INSULT: {},
+        SEXUALLY_EXPLICIT: {},
+        FLIRTATION: {}
+      }
     })
   })
   const json = await res.json()
 
-  return (json?.attributeScores?.TOXICITY?.summaryScore?.value ?? 0) as number
+  for (const key of Object.keys(json.attributeScores)) {
+    if (json.attributeScores[key].summaryScore.value > 0.8) {
+      return key
+    }
+  }
+
+  return null
 }
 
 export const hasRole = (member: GuildMember, role: Role): boolean => {
