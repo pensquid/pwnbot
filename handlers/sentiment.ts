@@ -10,6 +10,8 @@ export class SentimentHandler extends BaseHandler {
   async onLeave() { return false }
 
   async onMessage(message: Message) {
+    if (message.author.bot) return false
+    
     const toxicity = await getToxicity(message.content)
     if (toxicity < 0.35) return false
 

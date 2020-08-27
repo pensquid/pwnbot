@@ -26,6 +26,8 @@ export class NsfwHandler extends BaseHandler {
   async onLeave() { return false }
 
   async onMessage(message: Message) {
+    if (message.author.bot) return false
+    
     if ([
       this.loaded.channels.staffDiscussions.id,
       this.loaded.channels.venting.id,
