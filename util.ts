@@ -30,14 +30,15 @@ export const queue = async (loaded: BaseLoaded | Loaded, member: GuildMember) =>
   })
 
   await channel.send(`
-${member} **Welcome to PwnSquad!** We're glad you're finally here. Before we can give you access to the rest of the server, we need to make sure you aren't one of the bad ones.
+${member} **Welcome to PwnSquad!**
+We need to make sure you're a real human who's going to be a valuable member of our community - I'm sure you are!
 
-Please tell us:
+Just tell us:
 - Any programming or hacking knowledge you might have. It's fine if you're new to this!
 - What you're looking to get out of this server and/or why you joined.
 - And any other information you might want to include. Just tell us about yourself.
 
-To help eliminate spam, you'll be automatically kicked in 7 days if you don't answer these questions.
+To help eliminate spam, you'll be automatically kicked in 7 days if you don't say anything.
 
 We hope to see you soon! For more information, here's our website: <https://pwnsquad.net/>
   `.trim())
