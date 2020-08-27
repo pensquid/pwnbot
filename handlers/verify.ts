@@ -1,6 +1,7 @@
 import { BaseHandler, OnMessageExtras } from './_base'
 import { GuildMember, Message, User, MessageReaction } from 'discord.js'
 import { prefix } from '../config'
+import { hasRole } from '../util'
 
 const welcomeEmojis = ['😝', '🍻', '😄', '🎉', '👍', '🤠', '👋', '🤖', '👊', '❤️']
 
@@ -12,7 +13,7 @@ export class VerifyHandler extends BaseHandler {
   async onLeave() { return false }
 
   async onMessage(message: Message, { members }: OnMessageExtras) {
-    if (!message.member.roles.get(this.loaded.roles.super.id)) return false
+    if (!hasRole(message.member, this.loaded.roles.super)) return false
 
     if (message.content === '[[ test welcome ]]') {
       await this.welcome(message.member)

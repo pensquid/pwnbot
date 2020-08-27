@@ -1,6 +1,7 @@
 import { BaseHandler, OnMessageExtras } from './_base'
 import { Message } from 'discord.js'
 import { prefix } from '../config'
+import { hasRole } from '../util'
 
 export class RejectHandler extends BaseHandler {
   _name = 'reject'
@@ -10,7 +11,7 @@ export class RejectHandler extends BaseHandler {
   async onLeave() { return false }
 
   async onMessage(message: Message, { members }: OnMessageExtras) {
-    if (!message.member.roles.get(this.loaded.roles.super.id)) return false
+    if (!hasRole(message.member, this.loaded.roles.super)) return false
 
     if (message.content.startsWith(`${prefix}reject`)) {
       if (members.length < 1) {

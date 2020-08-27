@@ -1,5 +1,6 @@
 import { Loaded, BaseLoaded } from './loader'
-import { GuildMember, TextChannel } from 'discord.js'
+import { GuildMember, TextChannel, Role } from 'discord.js'
+import fetch from 'node-fetch'
 
 export const betterParseInt = (number: string) => {
   if (number.startsWith('0x')) {
@@ -68,4 +69,25 @@ export const getNonContentWarningText = (content: string): string => {
   }
 
   return outsideSpoiler
+}
+
+export const getToxicity = async (text: string): Promise<number> => {
+  const res = await fetch(`https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${encodeURIComponent(process.env.PERSPECTIVE_KEY as string)}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      comment: { text },
+      languages: [ 'en' ],
+      requestedAttributes: { TOXICITY: {} }
+    })
+  })
+  const json = await res.json()
+
+  return (json?.attributeScores?.TOXICITY?.summaryScore?.value ?? 0) as number
+}
+
+export const hasRole = (member: GuildMember, role: Role): boolean => {
+  return !!member.roles.find((r) => r.id === role.id)
 }

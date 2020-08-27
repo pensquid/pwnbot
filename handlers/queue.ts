@@ -2,7 +2,7 @@ import { BaseHandler, OnMessageExtras } from './_base'
 import { Message, GuildMember, TextChannel } from 'discord.js'
 import schedule from 'node-schedule'
 import { prefix } from '../config'
-import { queue, dequeue } from '../util'
+import { queue, dequeue, hasRole } from '../util'
 
 export class QueueHandler extends BaseHandler {
   _name = 'queue'
@@ -27,7 +27,7 @@ export class QueueHandler extends BaseHandler {
   }
 
   async onMessage(message: Message, { members }: OnMessageExtras) {
-    if (!message.member.roles.get(this.loaded.roles.super.id)) return false
+    if (!hasRole(message.member, this.loaded.roles.super)) return false
 
     if (message.content.startsWith(`${prefix}queue`)) {
       try {
