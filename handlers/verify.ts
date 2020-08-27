@@ -1,7 +1,6 @@
 import { BaseHandler, OnMessageExtras } from './_base'
-import { GuildMember, Message, ReactionEmoji, User, MessageReaction } from 'discord.js'
+import { GuildMember, Message, User, MessageReaction } from 'discord.js'
 import { prefix } from '../config'
-import { userInfo } from 'os'
 
 const welcomeEmojis = ['😝', '🍻', '😄', '🎉', '👍', '🤠', '👋', '🤖', '👊', '❤️']
 
