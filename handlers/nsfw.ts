@@ -11,7 +11,11 @@ const regexes = [
   /(^| |"|'|`)d[i1]ck($| |"|'|`)/,
   /(^| |"|'|`)jerk\s*off($| |"|'|`)/,
   /(^| |"|'|`)s[e3]x($| |"|'|`)/,
-  /(^| |"|'|`)horny($| |"|'|`)/
+  /(^| |"|'|`)horny($| |"|'|`)/,
+  /(^| |"|'|`)nigg(a|er)($| |"|'|`)/,
+  /(^| |"|'|`)suicide($| |"|'|`)/,
+  /(^| |`)kill\s+(your|my)self($| |`)/,
+  /(^| |`)kys($| |`)/
 ]
 
 export class NsfwHandler extends BaseHandler {
@@ -36,7 +40,7 @@ export class NsfwHandler extends BaseHandler {
     for (const regex of regexes) {
       if (text.match(regex)) {
         await this.loaded.channels.reports.send(`
-**Potentially NSFW message by ${message.member} in ${message.channel} has been deleted:**
+**Potentially NSFW/disturbing message by ${message.member} in ${message.channel} has been deleted:**
 ${message.content}
         `.trim())
         await message.delete()
