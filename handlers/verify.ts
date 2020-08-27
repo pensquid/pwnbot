@@ -62,7 +62,7 @@ Make sure to read the ${this.loaded.channels.rules} and get some cool ${this.loa
 If you're interested:
 - We usually have giveaways going on in ${this.loaded.channels.giveaways}
 - ${this.loaded.channels.br} contains helpful resources if you're just starting out
-- If you want to participate in giveaways and the like, <ping>!
+- **If you want to get important updates and participate in giveaways, <ping>!** (We don't ping often)
     `.trim()
 
     await this.loaded.channels.lobby.send(welcomeEmojis[Math.floor(Math.random() * welcomeEmojis.length)])
