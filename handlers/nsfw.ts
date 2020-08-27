@@ -28,9 +28,9 @@ export class NsfwHandler extends BaseHandler {
       this.loaded.channels.hornyLobby.id
     ].includes(message.channel.id)) return false
 
-    // if (message.member.roles.has(this.loaded.roles.super.id)) {
-    //   return false
-    // }
+    if (message.member.roles.has(this.loaded.roles.super.id)) {
+      return false
+    }
 
     const text = getNonContentWarningText(message.content)
     for (const regex of regexes) {
