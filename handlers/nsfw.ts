@@ -3,15 +3,15 @@ import { BaseHandler } from './_base'
 import { getNonContentWarningText } from '../util'
 
 const regexes = [
-  /(^| )p.?e.?n.?i.?s($| )/i,
-  /(^| )cum($| )/i,
-  /(^| )v.?a.?g.?i.?n.?a($| )/i,
-  /(^| )clit($| |oris)/i,
-  /(^| )mast[uv]rbate($| )/i,
-  /(^| )d[i1]ck($| )/,
-  /(^| )jerk\s*off($| )/,
-  /(^| )s[e3]x($| )/,
-  /(^| )horny($| )/
+  /(^| |"|'|`)p.?e.?n.?i.?s($| |"|'|`)/i,
+  /(^| |"|'|`)cum($| )/i,
+  /(^| |"|'|`)v.?a.?g.?i.?n.?a($| |"|'|`)/i,
+  /(^| |"|'|`)clit($| |oris|"|'|`)/i,
+  /(^| |"|'|`)mast[uv]rbate($| |"|'|`)/i,
+  /(^| |"|'|`)d[i1]ck($| |"|'|`)/,
+  /(^| |"|'|`)jerk\s*off($| |"|'|`)/,
+  /(^| |"|'|`)s[e3]x($| |"|'|`)/,
+  /(^| |"|'|`)horny($| |"|'|`)/
 ]
 
 export class NsfwHandler extends BaseHandler {
@@ -35,7 +35,7 @@ export class NsfwHandler extends BaseHandler {
     const text = getNonContentWarningText(message.content)
     for (const regex of regexes) {
       if (text.match(regex)) {
-        await this.loaded.channels.nsfwReports.send(`
+        await this.loaded.channels.reports.send(`
 **Potentially NSFW message by ${message.member} in ${message.channel} has been deleted:**
 ${message.content}
         `.trim())
