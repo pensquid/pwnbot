@@ -10,10 +10,12 @@ import { RejectHandler } from './handlers/reject'
 import { VerifyHandler } from './handlers/verify'
 import { QueueHandler } from './handlers/queue'
 import { BaseHandler } from './handlers/_base'
+import { NsfwHandler } from './handlers/nsfw'
 
 const client = new Discord.Client()
 
 const handlers = [
+  NsfwHandler,
   CountingHandler,
   DataHandler,
   PwncoinHandler,

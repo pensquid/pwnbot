@@ -47,3 +47,25 @@ export const dequeue = async (loaded: BaseLoaded | Loaded, member: GuildMember) 
   const channel = loaded.guild.channels.find((channel) => channel.name === `limbo-${member.id}`)
   if (channel) await channel.delete()
 }
+
+export const getNonContentWarningText = (content: string): string => {
+  if (!content.includes('||')) return content
+  if (!content.includes('cw: ')) return content
+
+  let inSpoiler = false
+  let outsideSpoiler = ''
+
+  for (let i = 0; i < content.length; i++) {
+    const char = content[i]
+    const nextChar = content[i + 1] ?? ''
+
+    if (char === '|' && nextChar === '|') {
+      i++
+      inSpoiler = !inSpoiler
+    } else if (!inSpoiler) {
+      outsideSpoiler += char
+    }
+  }
+
+  return outsideSpoiler
+}
