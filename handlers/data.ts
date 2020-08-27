@@ -15,7 +15,7 @@ export class DataHandler extends BaseHandler {
       || dumbContent === 'donotasktoask'
       || dumbContent === 'noaskingtoask'
     ) {
-      await message.channel.send('https://pwnsquad.net/data/')
+      await message.channel.send('https://pwnsquad.net/data')
     }
 
     return false
