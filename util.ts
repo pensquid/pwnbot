@@ -85,7 +85,6 @@ export const getWarnableIntent = async (text: string): Promise<string | null> =>
         IDENTITY_ATTACK: {},
         INSULT: {},
         SEXUALLY_EXPLICIT: {},
-        FLIRTATION: {},
         THREAT: {},
         SEVERE_TOXICITY: {}
       }
