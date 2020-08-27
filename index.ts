@@ -12,14 +12,16 @@ import { QueueHandler } from './handlers/queue'
 import { BaseHandler } from './handlers/_base'
 import { NsfwHandler } from './handlers/nsfw'
 import { SentimentHandler } from './handlers/sentiment'
+import { RulesHandler } from './handlers/rules'
 
 const client = new Discord.Client()
 
 const handlers = [
-  SentimentHandler,
   NsfwHandler,
+  SentimentHandler,
   CountingHandler,
   DataHandler,
+  RulesHandler,
   PwncoinHandler,
   RejectHandler,
   VerifyHandler,
