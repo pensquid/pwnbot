@@ -4,10 +4,6 @@ import { getWarnableIntent } from '../util'
 
 export class SentimentHandler extends BaseHandler {
   _name = 'sentiment'
-  
-  async onInit() {}
-  async onJoin() { return false }
-  async onLeave() { return false }
 
   async onMessage(message: Message) {
     if (message.author.bot) return false

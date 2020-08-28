@@ -5,10 +5,6 @@ import { hasRole } from '../util'
 
 export class RejectHandler extends BaseHandler {
   _name = 'reject'
-  
-  async onInit() {}
-  async onJoin() { return false }
-  async onLeave() { return false }
 
   async onMessage(message: Message, { members }: OnMessageExtras) {
     if (!hasRole(message.member, this.loaded.roles.super)) return false

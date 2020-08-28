@@ -4,10 +4,6 @@ import { betterParseInt } from '../util'
 
 export class CountingHandler extends BaseHandler {
   _name = 'counting'
-  
-  async onInit() {}
-  async onJoin() { return false }
-  async onLeave() { return false }
 
   async onMessage(message: Message) {
     if (message.channel !== this.loaded.channels.counting) return false

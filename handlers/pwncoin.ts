@@ -15,10 +15,6 @@ interface ApiResponse {
 
 export class PwncoinHandler extends BaseHandler {
   _name = 'pwncoin'
-  
-  async onInit() {}
-  async onJoin() { return false }
-  async onLeave() { return false }
 
   async onMessage(message: Message) {
     if (message.content.startsWith(`${prefix}bal`)) {

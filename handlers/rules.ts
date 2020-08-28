@@ -4,10 +4,6 @@ import { prefix } from '../config'
 
 export class RulesHandler extends BaseHandler {
   _name = 'rules'
-  
-  async onInit() {}
-  async onJoin() { return false }
-  async onLeave() { return false }
 
   async onMessage(message: Message) {
     if (message.content.startsWith(`${prefix}rules`)) {

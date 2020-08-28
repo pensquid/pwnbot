@@ -17,8 +17,8 @@ export abstract class BaseHandler {
     this.loaded = loaded
   }
   
-  abstract async onInit(): Promise<void>
-  abstract async onJoin(member: GuildMember): Promise<boolean>
-  abstract async onLeave(member: GuildMember): Promise<boolean>
-  abstract async onMessage(message: Message, extras: OnMessageExtras): Promise<boolean>
+  async onInit(): Promise<void> {}
+  async onJoin(member: GuildMember): Promise<boolean> { return false }
+  async onLeave(member: GuildMember): Promise<boolean> { return false }
+  async onMessage(message: Message, extras: OnMessageExtras): Promise<boolean> { return false }
 }
