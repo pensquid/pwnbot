@@ -39,8 +39,8 @@ const allHandlers = async (f: (h: BaseHandler) => Promise<boolean>, fName: strin
       const res = await f(handler)
       if (res) break
     } catch (error) {
-      //console.log(`> ${handler._name} errored in ${fName}!`)
-      //console.log(error)
+      console.log(`> ${handler._name} errored in ${fName}!`)
+      console.log(error)
     }
   }
 }
