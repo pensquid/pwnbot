@@ -21,7 +21,7 @@ export class ImageHandler extends BaseHandler {
 
     async onMessage(message: Message) {
         if (message.content.toLowerCase().startsWith(`${prefix}animal`)) {
-            const type = message.content.split(" ")[1]
+            const type = message.content.toLowerCase().split(" ")[1]
             let res, title
             switch (type) {
                 case 'fox':
@@ -44,6 +44,7 @@ export class ImageHandler extends BaseHandler {
                     break
                 case 'rpanda':
                 case 'redpanda':
+                case 'red-panda':
                     res = await fetch('https://some-random-api.ml/img/red_panda')
                     title = 'Here\'s a random picture of a red panda.'
                     break
