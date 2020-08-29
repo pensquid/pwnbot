@@ -13,6 +13,7 @@ import { BaseHandler } from './handlers/_base'
 import { NsfwHandler } from './handlers/nsfw'
 import { SentimentHandler } from './handlers/sentiment'
 import { RulesHandler } from './handlers/rules'
+import { ImageHandler } from './handlers/image'
 
 const client = new Discord.Client()
 
@@ -25,7 +26,8 @@ const handlers = [
   PwncoinHandler,
   RejectHandler,
   VerifyHandler,
-  QueueHandler
+  QueueHandler,
+  ImageHandler
 ]
 
 const allHandlers = async (f: (h: BaseHandler) => Promise<boolean>, fName: string) => {
@@ -37,8 +39,8 @@ const allHandlers = async (f: (h: BaseHandler) => Promise<boolean>, fName: strin
       const res = await f(handler)
       if (res) break
     } catch (error) {
-      console.log(`> ${handler._name} errored in ${fName}!`)
-      console.log(error)
+      //console.log(`> ${handler._name} errored in ${fName}!`)
+      //console.log(error)
     }
   }
 }
