@@ -3,10 +3,10 @@ import { BaseHandler } from './_base'
 import { prefix } from '../config'
 import fetch from 'node-fetch'
 const apiArray = [
-    'https://some-random-api.ml/img/fox',
-    'https://some-random-api.ml/img/cat',
+    'https://randomfox.ca/floof/',
+    'https://aws.random.cat/meow',
     'https://some-random-api.ml/img/panda',
-    'https://some-random-api.ml/img/dog',
+    'https://dog.ceo/api/breeds/image/random',
     'https://some-random-api.ml/img/koala',
     'https://some-random-api.ml/img/birb',
     'https://some-random-api.ml/img/red_panda'
