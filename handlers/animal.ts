@@ -22,14 +22,14 @@ export class AnimalHandler extends BaseHandler {
     async onMessage(message: Message) {
         if (message.content.toLowerCase().startsWith(`${prefix}animal`)) {
             const type = message.content.toLowerCase().split(" ")[1]
-            let res, title
+            let res, title, json, image
             switch (type) {
                 case 'fox':
-                    res = await fetch('https://some-random-api.ml/img/fox')
+                    res = await fetch('https://randomfox.ca/floof/')
                     title = 'Here\'s a random picture of a fox.'
                     break
                 case 'cat':
-                    res = await fetch('https://some-random-api.ml/img/cat')
+                    res = await fetch('https://aws.random.cat/meow')
                     title = 'Here\'s a random picture of a cat.'
                     break
                 case 'panda':
@@ -39,7 +39,7 @@ export class AnimalHandler extends BaseHandler {
                 case 'doggie':
                 case 'doggo':
                 case 'dog':
-                    res = await fetch('https://some-random-api.ml/img/dog')
+                    res = await fetch('https://dog.ceo/api/breeds/image/random')
                     title = 'Here\'s a random picture of a dog.'
                     break
                 case 'rpanda':
@@ -63,11 +63,11 @@ export class AnimalHandler extends BaseHandler {
                     title = 'Here\'s a random picture of an animal.'
                     break
             }
-            const json = await res.json()
+            json = await res.json()
             const embed = new RichEmbed()
                 .setTitle(title)
-                .setURL(json.link)
-                .setImage(json.link)
+                .setURL(json.image ?? json.link ?? json.message ?? json.file)
+                .setImage(json.image ?? json.link ?? json.message ?? json.file)
                 .setTimestamp(message.editedTimestamp)
                 .setColor('#a839ed')
                 .setFooter(`${message.author.username}#${message.author.discriminator}`, message.author.displayAvatarURL)
