@@ -12,7 +12,7 @@ const apiArray = [
     'https://some-random-api.ml/img/red_panda'
 ]
 
-export class ImageHandler extends BaseHandler {
+export class AnimalHandler extends BaseHandler {
     _name = 'image'
 
     async onInit() {}

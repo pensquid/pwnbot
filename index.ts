@@ -13,7 +13,7 @@ import { BaseHandler } from './handlers/_base'
 import { NsfwHandler } from './handlers/nsfw'
 import { SentimentHandler } from './handlers/sentiment'
 import { RulesHandler } from './handlers/rules'
-import { ImageHandler } from './handlers/animal'
+import { AnimalHandler } from './handlers/animal'
 
 const client = new Discord.Client()
 
@@ -27,7 +27,7 @@ const handlers = [
   RejectHandler,
   VerifyHandler,
   QueueHandler,
-  ImageHandler
+  AnimalHandler
 ]
 
 const allHandlers = async (f: (h: BaseHandler) => Promise<boolean>, fName: string) => {
