@@ -13,7 +13,7 @@ import { BaseHandler } from './handlers/_base'
 import { NsfwHandler } from './handlers/nsfw'
 import { SentimentHandler } from './handlers/sentiment'
 import { RulesHandler } from './handlers/rules'
-import { ImageHandler } from './handlers/image'
+import { ImageHandler } from './handlers/animal'
 
 const client = new Discord.Client()
 
