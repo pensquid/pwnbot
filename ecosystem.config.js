@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'pwnbot',
-      script: 'yarn',
+      script: '/usr/bin/yarn',
       args: 'start'
     }
   ]
