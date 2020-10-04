@@ -45,34 +45,34 @@ export const load = async (client: Client) => {
   loaded.guild = client.guilds.get('520444262685474816')
 
   loaded.roles = {
-    super: loaded.guild?.roles.get('630212418072739861') as Role,
-    wandering: loaded.guild?.roles.get('563143582765023232') as Role,
-    verified: loaded.guild?.roles.get('520461398183247875') as Role,
-    ping: loaded.guild?.roles.get('559814932460208167') as Role
+    super: loaded.guild?.roles.get('762072849711366164') as Role,
+    wandering: loaded.guild?.roles.get('762072882225348688') as Role,
+    verified: loaded.guild?.roles.get('762072860113764393') as Role,
+    ping: loaded.guild?.roles.get('762072859380023327') as Role
   }
 
   loaded.channels = {
-    lobby: loaded.guild?.channels.get('520452924967747584') as TextChannel,
-    roles: loaded.guild?.channels.get('520466535198752778') as TextChannel,
-    giveaways: loaded.guild?.channels.get('577225038621704241') as TextChannel,
-    br: loaded.guild?.channels.get('520452891471773697') as TextChannel,
+    lobby: loaded.guild?.channels.get('762072969882894376') as TextChannel,
+    roles: loaded.guild?.channels.get('762072966938361896') as TextChannel,
+    giveaways: loaded.guild?.channels.get('762072961292697640') as TextChannel,
+    br: loaded.guild?.channels.get('762072963063087174') as TextChannel,
     rules: loaded.guild?.channels.get('540370552200757248') as TextChannel,
-    jam: loaded.guild?.channels.get('621350573861502986') as TextChannel,
-    counting: loaded.guild?.channels.get('591333906431606789') as TextChannel,
-    reports: loaded.guild?.channels.get('748398172858089473') as TextChannel,
-    hornyLobby: loaded.guild?.channels.get('746914585797197906') as TextChannel,
-    venting: loaded.guild?.channels.get('563889418587602964') as TextChannel,
-    staffDiscussions: loaded.guild?.channels.get('520453425444683776') as TextChannel
+    jam: loaded.guild?.channels.get('762073012747894784') as TextChannel,
+    counting: loaded.guild?.channels.get('762072973775339520') as TextChannel,
+    reports: loaded.guild?.channels.get('762114526099013693') as TextChannel,
+    hornyLobby: loaded.guild?.channels.get('762072986013401088') as TextChannel,
+    venting: loaded.guild?.channels.get('762072971330060288') as TextChannel,
+    staffDiscussions: loaded.guild?.channels.get('762072979835977778') as TextChannel
   }
 
   loaded.categories = {
-    verification: loaded.guild?.channels.get('673054726119751680') as CategoryChannel
+    verification: loaded.guild?.channels.get('762072945702993921') as CategoryChannel
   }
 
   loaded.emojis = {
-    no: loaded.guild?.emojis.get('630451133575331898') as Emoji,
-    yes: loaded.guild?.emojis.get('630451215037235213') as Emoji,
-    pwncoin: loaded.guild?.emojis.get('646199089951670293') as Emoji,
+    no: loaded.guild?.emojis.get('762113329811947540') as Emoji,
+    yes: loaded.guild?.emojis.get('762113351223345243') as Emoji,
+    pwncoin: loaded.guild?.emojis.get('762113367955341312') as Emoji,
     ping: loaded.guild?.emojis.get('639244066894118961') as Emoji
   }
 
