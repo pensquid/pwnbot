@@ -102,5 +102,5 @@ export const getWarnableIntent = async (text: string): Promise<string | null> =>
 }
 
 export const hasRole = (member: GuildMember, role: Role): boolean => {
-  return !!member.roles.find((r) => r.id === role.id)
+  return !!member?.roles.find((r) => r.id === role.id)
 }

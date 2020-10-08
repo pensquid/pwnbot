@@ -70,9 +70,9 @@ export const load = async (client: Client) => {
   }
 
   loaded.emojis = {
-    no: loaded.guild?.emojis.get('762113329811947540') as Emoji,
-    yes: loaded.guild?.emojis.get('762113351223345243') as Emoji,
-    pwncoin: loaded.guild?.emojis.get('762113367955341312') as Emoji,
+    no: loaded.guild?.emojis.get('630451133575331898') as Emoji,
+    yes: loaded.guild?.emojis.get('630451215037235213') as Emoji,
+    pwncoin: loaded.guild?.emojis.get('646199089951670293') as Emoji,
     ping: loaded.guild?.emojis.get('639244066894118961') as Emoji
   }
 
