@@ -17,17 +17,20 @@ export const betterParseInt = (number: string) => {
 export const queue = async (loaded: BaseLoaded | Loaded, member: GuildMember) => {
   if ('done' in loaded && !loaded.done) return
   await member.addRole(loaded.roles.wandering)
+  console.log('[QUEUE] Added role')
 
   const channel = await loaded.guild.createChannel(`limbo-${member.id}`, {
     type: 'text',
     parent: loaded.categories.verification,
     topic: `This channel was automatically created for ${member.displayName} so they can get verified!`
   }) as TextChannel
+  console.log('[QUEUE] Created channel')
   await channel.lockPermissions()
   await channel.overwritePermissions(member, {
     SEND_MESSAGES: true,
     VIEW_CHANNEL: true
   })
+  console.log('[QUEUE] Assigned permissions')
 
   await channel.send(`
 ${member} **Welcome to PwnSquad!**
@@ -42,6 +45,7 @@ To help eliminate spam, you'll be automatically kicked in 7 days if you don't sa
 
 We hope to see you soon! For more information, here's our website: <https://pwnsquad.net/>
   `.trim())
+  console.log('[QUEUE] Sent message')
 }
 
 export const dequeue = async (loaded: BaseLoaded | Loaded, member: GuildMember) => {
