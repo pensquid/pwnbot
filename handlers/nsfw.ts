@@ -27,8 +27,7 @@ export class NsfwHandler extends BaseHandler {
     
     if ([
       this.loaded.channels.staffDiscussions.id,
-      this.loaded.channels.venting.id,
-      this.loaded.channels.hornyLobby.id
+      this.loaded.channels.venting.id
     ].includes(message.channel.id)) return false
 
     if (message.member.roles.has(this.loaded.roles.super.id)) {
