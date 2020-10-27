@@ -7,8 +7,6 @@ export class SentimentHandler extends BaseHandler {
 
   async onMessage(message: Message) {
     if (message.author.bot) return false
-
-    if (message.channel.id === this.loaded.channels.hornyLobby.id) return false
     
     const type = await getWarnableIntent(message.content)
     if (!type) return false
