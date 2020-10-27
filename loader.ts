@@ -18,8 +18,7 @@ export interface BaseLoaded {
     counting: TextChannel,
     reports: TextChannel,
     venting: TextChannel,
-    staffDiscussions: TextChannel,
-    hornyLobby: TextChannel
+    staffDiscussions: TextChannel
   },
   categories: {
     verification: CategoryChannel
@@ -59,8 +58,7 @@ export const load = async (client: Client) => {
     rules: loaded.guild?.channels.get('540370552200757248') as TextChannel,
     jam: loaded.guild?.channels.get('762073012747894784') as TextChannel,
     counting: loaded.guild?.channels.get('762072973775339520') as TextChannel,
-    reports: loaded.guild?.channels.get('762114526099013693') as TextChannel,
-    hornyLobby: loaded.guild?.channels.get('762072986013401088') as TextChannel,
+    reports: loaded.guild?.channels.get('762114486705586178') as TextChannel,
     venting: loaded.guild?.channels.get('762072971330060288') as TextChannel,
     staffDiscussions: loaded.guild?.channels.get('762072979835977778') as TextChannel
   }

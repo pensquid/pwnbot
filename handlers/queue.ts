@@ -30,6 +30,7 @@ export class QueueHandler extends BaseHandler {
     if (!hasRole(message.member, this.loaded.roles.super)) return false
 
     if (message.content.startsWith(`${prefix}queue`)) {
+      console.log('[Queue] Starting queue')
       try {
         if (message.deletable) await message.delete()
       } catch {}
@@ -48,6 +49,7 @@ export class QueueHandler extends BaseHandler {
           } else if (member.roles.get(this.loaded.roles.wandering.id)) {
             await message.member.send(`${this.loaded.emojis.no} ${member} is already queued, so you can't manually queue them!`)
           } else {
+            console.log('[Queue] Running queue function')
             await queue(this.loaded, member)
             await message.member.send(`${this.loaded.emojis.yes} ${member} has been queued.`)
           }
