@@ -45,7 +45,7 @@ export const load = async (client: Client) => {
 
   loaded.roles = {
     super: loaded.guild?.roles.get('762072849711366164') as Role,
-    wandering: loaded.guild?.roles.get('762072882225348688') as Role,
+    wandering: loaded.guild?.roles.get('778330853221728258') as Role,
     verified: loaded.guild?.roles.get('762072860113764393') as Role,
     ping: loaded.guild?.roles.get('762072859380023327') as Role
   }

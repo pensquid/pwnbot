@@ -50,8 +50,8 @@ export class VerifyHandler extends BaseHandler {
   }
 
   private async welcome(member: GuildMember) {
-    const baseWelcome = `
-${member} welcome to PwnSquad: the only programming server with at least two distinct conversations at any given time!
+    /*
+    ${member} welcome to PwnSquad: the only programming server with at least two distinct conversations at any given time!
 
 Make sure to read the ${this.loaded.channels.rules} and get some cool ${this.loaded.channels.roles}.
 
@@ -59,6 +59,15 @@ If you're interested:
 - We usually have giveaways going on in ${this.loaded.channels.giveaways}
 - ${this.loaded.channels.br} contains helpful resources if you're just starting out
 - **If you want to get important updates and participate in giveaways, <ping>!** (We don't ping often)
+*/
+    const baseWelcome = `
+${member} welcome to PwnSquad: the only programming server with at least two distinct conversations at any given time!
+
+Make sure to read the ${this.loaded.channels.rules} and get some cool ${this.loaded.channels.roles}.
+
+We're still recovering from a raid so many of our resources and giveaways are missing - please be patient.
+
+**If you want to get important updates and participate in giveaways, <ping>!** (We don't ping often)
     `.trim()
 
     await this.loaded.channels.lobby.send(welcomeEmojis[Math.floor(Math.random() * welcomeEmojis.length)])
