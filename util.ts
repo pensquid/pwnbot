@@ -17,6 +17,9 @@ export const betterParseInt = (number: string) => {
 export const queue = async (loaded: BaseLoaded | Loaded, member: GuildMember) => {
   if ('done' in loaded && !loaded.done) return
 
+  await member.addRole(loaded.roles.wandering)
+  console.log('[Queue] Added role')
+
   const channel = await loaded.guild.createChannel(`limbo-${member.id}`, {
     type: 'text',
     parent: loaded.categories.verification,
