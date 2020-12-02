@@ -36,7 +36,7 @@ export class NsfwHandler extends BaseHandler {
 
     const text = getNonContentWarningText(message.content)
     for (const regex of regexes) {
-      if (text.match(regex)) {
+      if (text.toLowerCase().match(regex)) {
         await this.loaded.channels.reports.send(`
 **Potentially NSFW/disturbing message by ${message.member} in ${message.channel} has been deleted:**
 ${message.content}
