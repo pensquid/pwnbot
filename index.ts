@@ -70,4 +70,10 @@ client.on('message', async (message: Message) => {
   await allHandlers(async (handler) => await handler.onMessage(message, { members, users }), 'onMessage')
 })
 
+client.on('messageUpdate', async (oldMessage: Message, newMessage: Message) => {
+  if (!loaded.done) return
+
+  await allHandlers(async (handler) => await handler.onMessageUpdate(oldMessage, newMessage), 'onMessageUpdate')
+})
+
 client.login(process.env.BOT_TOKEN)
