@@ -6,9 +6,6 @@ import { load, loaded } from './loader'
 import { CountingHandler } from './handlers/counting'
 import { DataHandler } from './handlers/data'
 import { PwncoinHandler } from './handlers/pwncoin'
-import { RejectHandler } from './handlers/reject'
-import { VerifyHandler } from './handlers/verify'
-import { QueueHandler } from './handlers/queue'
 import { BaseHandler } from './handlers/_base'
 import { NsfwHandler } from './handlers/nsfw'
 import { SentimentHandler } from './handlers/sentiment'
@@ -24,9 +21,6 @@ const handlers = [
   DataHandler,
   RulesHandler,
   PwncoinHandler,
-  RejectHandler,
-  VerifyHandler,
-  QueueHandler,
   ImageHandler
 ]
 

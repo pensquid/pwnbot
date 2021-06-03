@@ -4,8 +4,7 @@ export interface BaseLoaded {
   guild: Guild,
   roles: {
     super: Role,
-    wandering: Role,
-    verified: Role,
+    member: Role,
     ping: Role
   },
   channels: {
@@ -19,9 +18,6 @@ export interface BaseLoaded {
     reports: TextChannel,
     venting: TextChannel,
     staffDiscussions: TextChannel
-  },
-  categories: {
-    verification: CategoryChannel
   },
   emojis: {
     no: Emoji,
@@ -45,8 +41,7 @@ export const load = async (client: Client) => {
 
   loaded.roles = {
     super: loaded.guild?.roles.get('762072849711366164') as Role,
-    wandering: loaded.guild?.roles.get('778330853221728258') as Role,
-    verified: loaded.guild?.roles.get('762072860113764393') as Role,
+    member: loaded.guild?.roles.get('762072860113764393') as Role,
     ping: loaded.guild?.roles.get('762072859380023327') as Role
   }
 
@@ -61,10 +56,6 @@ export const load = async (client: Client) => {
     reports: loaded.guild?.channels.get('762114486705586178') as TextChannel,
     venting: loaded.guild?.channels.get('762072971330060288') as TextChannel,
     staffDiscussions: loaded.guild?.channels.get('762072979835977778') as TextChannel
-  }
-
-  loaded.categories = {
-    verification: loaded.guild?.channels.get('762072945702993921') as CategoryChannel
   }
 
   loaded.emojis = {

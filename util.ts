@@ -1,5 +1,4 @@
-import { Loaded, BaseLoaded } from './loader'
-import { GuildMember, TextChannel, Role } from 'discord.js'
+import { GuildMember, Role } from 'discord.js'
 import fetch from 'node-fetch'
 
 export const betterParseInt = (number: string) => {
@@ -12,47 +11,6 @@ export const betterParseInt = (number: string) => {
   } else {
     return parseInt(number)
   }
-}
-
-export const queue = async (loaded: BaseLoaded | Loaded, member: GuildMember) => {
-  if ('done' in loaded && !loaded.done) return
-
-  await member.addRole(loaded.roles.wandering)
-  console.log('[Queue] Added role')
-
-  const channel = await loaded.guild.createChannel(`limbo-${member.id}`, {
-    type: 'text',
-    parent: loaded.categories.verification,
-    topic: `This channel was automatically created for ${member.displayName} so they can get verified!`
-  }) as TextChannel
-  console.log('[Queue] Created channel')
-  await channel.lockPermissions()
-  await channel.overwritePermissions(member, {
-    SEND_MESSAGES: true,
-    VIEW_CHANNEL: true
-  })
-  console.log('[Queue] Assigned permissions')
-
-  await channel.send(`
-${member} **Welcome to PwnSquad!**
-We need to make sure you're a real human who's going to be a valuable member of our community - I'm sure you are!
-
-Just tell us:
-- Any programming or hacking knowledge you might have. It's fine if you're new to this!
-- What you're looking to get out of this server and/or why you joined.
-- And any other information you might want to include. Just tell us about yourself.
-
-To help eliminate spam, you'll be automatically kicked in 7 days if you don't say anything.
-
-We hope to see you soon! For more information, here's our website: <https://pwnsquad.net/>
-  `.trim())
-  console.log('[Queue] Sent message')
-}
-
-export const dequeue = async (loaded: BaseLoaded | Loaded, member: GuildMember) => {
-  if ('done' in loaded && !loaded.done) return
-  const channel = loaded.guild.channels.find((channel) => channel.name === `limbo-${member.id}`)
-  if (channel) await channel.delete()
 }
 
 export const getNonContentWarningText = (content: string): string => {
