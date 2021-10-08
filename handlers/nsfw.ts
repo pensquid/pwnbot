@@ -20,7 +20,16 @@ const regexes = [
   /(^| |`)cuntboy($| |`)/,
   /(^| |`)shemale($| |`)/,
   /(^| |`)troon($| |`)/,
-  /(^| |`)khanith($| |`)/
+  /(^| |`)khanith($| |`)/,
+  /(^| |`)dickgirl($| |`)/,
+  /(^| |`)chink($| |`)/,
+  /(^| |`)cina($| |`)/,
+  /(^| |`)cokin($| |`)/,
+  /(^| |`)ting tong($| |`)/,
+  /(^| |`)xing ling($| |`)/,
+  /(^| |`)futa($| |`)/,
+  /(^| |`)sissy($| |`)/,
+  /(^| |`)dyke($| |`)/
 ]
 
 export class NsfwHandler extends BaseHandler {
