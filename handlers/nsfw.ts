@@ -28,8 +28,7 @@ const regexes = [
   /(^| |`)ting tong($| |`)/,
   /(^| |`)xing ling($| |`)/,
   /(^| |`)futa($| |`)/,
-  /(^| |`)sissy($| |`)/,
-  /(^| |`)dyke($| |`)/
+  /(^| |`)sissy($| |`)/
 ]
 
 export class NsfwHandler extends BaseHandler {
