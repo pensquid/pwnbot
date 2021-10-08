@@ -16,7 +16,11 @@ const regexes = [
   /(^| |"|'|`)suicide($| |"|'|`)/,
   /(^| |"|'|`)trannie($| |"|'|`)/,
   /(^| |`)kill\s+(your|my)self($| |`)/,
-  /(^| |`)kys($| |`)/
+  /(^| |`)kys($| |`)/,
+  /(^| |`)cuntboy($| |`)/,
+  /(^| |`)shemale($| |`)/,
+  /(^| |`)troon($| |`)/,
+  /(^| |`)khanith($| |`)/
 ]
 
 export class NsfwHandler extends BaseHandler {
