@@ -56,4 +56,5 @@ We're still recovering from a raid so many of our resources and giveaways are mi
   }
   async onLeave(member: GuildMember): Promise<boolean> { return false }
   async onMessage(message: Message, extras: OnMessageExtras): Promise<boolean> { return false }
+  async onMessageUpdate(oldMessage: Message, newMessage: Message): Promise<boolean> { return false}
 }
