@@ -1,7 +1,7 @@
 import { Message, TextChannel } from 'discord.js'
-import { BaseHandler } from './_base'
 import { getNonContentWarningText, hasRole } from '../util'
 import { CONSTANTS } from '../constants'
+import { Module } from './modules'
 
 const regexes = [
 	/(^| |"|'|`)p.?e.?n.?i.?s($| |"|'|`)/i,
@@ -24,11 +24,9 @@ const regexes = [
 	/(^| |`)khanith($| |`)/,
 ]
 
-export class NsfwHandler extends BaseHandler {
-	_name = 'nsfw'
-
-	async onMessage(message: Message) {
-		if (message.author.bot) return false
+export const NsfwModule: Module = (client) => {
+	client.on('message', async (message): Promise<void> => {
+		if (message.author.bot) return
 
 		if (
 			[
@@ -36,16 +34,16 @@ export class NsfwHandler extends BaseHandler {
 				CONSTANTS.channels.venting,
 			].includes(message.channel.id)
 		)
-			return false
+			return
 
 		if (hasRole(message.member, CONSTANTS.roles.super)) {
-			return false
+			return
 		}
 
 		const text = getNonContentWarningText(message.content)
 		for (const regex of regexes) {
 			if (text.toLowerCase().match(regex)) {
-				const reports = (await this.client.channels.fetch(
+				const reports = (await client.channels.fetch(
 					CONSTANTS.channels.reports
 				)) as TextChannel
 				await reports.send(
@@ -55,10 +53,8 @@ ${message.content}
         `.trim()
 				)
 				await message.delete()
-				return true
+				return
 			}
 		}
-
-		return false
-	}
+	})
 }

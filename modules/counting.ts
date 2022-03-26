@@ -1,17 +1,15 @@
 import { Message } from 'discord.js'
-import { BaseHandler } from './_base'
-import { betterParseInt } from '../util'
 import { CONSTANTS } from '../constants'
+import { betterParseInt } from '../util'
+import { Module } from './modules'
 
-export class CountingHandler extends BaseHandler {
-	_name = 'counting'
-
-	async onMessage(message: Message) {
-		if (message.channel.id !== CONSTANTS.channels.counting) return false
+export const CountingModule: Module = (client) => {
+	client.on('message', async (message): Promise<void> => {
+		if (message.channel.id !== CONSTANTS.channels.counting) return
 
 		const lastMessages = await message.channel.messages.fetch({ limit: 2 })
 		const last = lastMessages.last()
-		if (!last) return false
+		if (!last) return
 
 		const parsedLast = betterParseInt(last.content)
 		const parsedCurrent = betterParseInt(message.content)
@@ -19,7 +17,5 @@ export class CountingHandler extends BaseHandler {
 		if (parsedCurrent - parsedLast !== 1 || last.author === message.author) {
 			await message.delete()
 		}
-
-		return true
-	}
+	})
 }
