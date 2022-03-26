@@ -4,13 +4,8 @@ import Discord, { Message, GuildMember } from 'discord.js'
 import { load, loaded } from './loader'
 
 import { CountingHandler } from './handlers/counting'
-import { DataHandler } from './handlers/data'
-import { PwncoinHandler } from './handlers/pwncoin'
 import { BaseHandler } from './handlers/_base'
 import { NsfwHandler } from './handlers/nsfw'
-import { SentimentHandler } from './handlers/sentiment'
-import { RulesHandler } from './handlers/rules'
-import { ImageHandler } from './handlers/image'
 
 const client = new Discord.Client({
 	intents: [
@@ -19,15 +14,7 @@ const client = new Discord.Client({
 	],
 })
 
-const handlers = [
-	NsfwHandler,
-	SentimentHandler,
-	CountingHandler,
-	DataHandler,
-	RulesHandler,
-	PwncoinHandler,
-	ImageHandler,
-]
+const handlers = [NsfwHandler, CountingHandler]
 
 const allHandlers = async (
 	f: (h: BaseHandler) => Promise<boolean>,
