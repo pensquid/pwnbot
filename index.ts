@@ -12,7 +12,12 @@ import { SentimentHandler } from './handlers/sentiment'
 import { RulesHandler } from './handlers/rules'
 import { ImageHandler } from './handlers/image'
 
-const client = new Discord.Client()
+const client = new Discord.Client({
+  intents: [
+    Discord.Intents.FLAGS.GUILD_MEMBERS,
+    Discord.Intents.FLAGS.GUILD_MESSAGES
+  ]
+})
 
 const handlers = [
   NsfwHandler,
@@ -40,8 +45,8 @@ const allHandlers = async (f: (h: BaseHandler) => Promise<boolean>, fName: strin
 }
 
 client.on('ready', async () => {
-  console.log(`> Logged in as ${client.user.tag}`)
-  client.user.setActivity('you', { type: 'WATCHING' })
+  console.log(`> Logged in as ${client.user!.tag}`)
+  client.user!.setActivity('you', { type: 'WATCHING' })
 
   load(client)
   if (!loaded.done) return
@@ -59,7 +64,7 @@ client.on('message', async (message: Message) => {
   if (!loaded.done) return
 
   const users = message.mentions.users
-  const members = await Promise.all(users.map((user) => loaded.guild?.fetchMember(user))) as GuildMember[]
+  const members = await Promise.all(users.map((user) => loaded.guild?.members.fetch(user))) as GuildMember[]
 
   await allHandlers(async (handler) => await handler.onMessage(message, { members, users }), 'onMessage')
 })

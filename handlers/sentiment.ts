@@ -16,7 +16,7 @@ export class SentimentHandler extends BaseHandler {
 ${message.content}
 
 These are wildly inaccurate so nothing has been done
-Message link: https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id}
+Message link: https://discordapp.com/channels/${message.guild?.id}/${message.channel.id}/${message.id}
     `.trim())
 
     return false

@@ -8,8 +8,9 @@ export class CountingHandler extends BaseHandler {
   async onMessage(message: Message) {
     if (message.channel !== this.loaded.channels.counting) return false
     
-    const lastMessages = await message.channel.fetchMessages({ limit: 2 })
+    const lastMessages = await message.channel.messages.fetch({ limit: 2 })
     const last = lastMessages.last()
+    if (!last) return false
 
     const parsedLast = betterParseInt(last.content)
     const parsedCurrent = betterParseInt(message.content)

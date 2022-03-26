@@ -1,4 +1,4 @@
-import { GuildMember, Message, User, Collection, Client, MessageReaction } from 'discord.js'
+import { GuildMember, Message, User, Collection, Client, MessageReaction, PartialGuildMember } from 'discord.js'
 import { BaseLoaded } from '../loader'
 
 const welcomeEmojis = ['😝', '🍻', '😄', '🎉', '👍', '🤠', '👋', '🤖', '👊', '❤️']
@@ -31,7 +31,7 @@ We're still recovering from a raid so many of our resources and giveaways are mi
     await this.loaded.channels.lobby.send(welcomeEmojis[Math.floor(Math.random() * welcomeEmojis.length)])
     const m = await this.loaded.channels.lobby.send(baseWelcome.replace('<ping>', `react to this message with ${this.loaded.emojis.ping}`))
 
-    const reaction = await m.react(this.loaded.emojis.ping)
+    /*const reaction = await m.react(this.loaded.emojis.ping)
     const timeout = setTimeout(() => {
       try {
         m.edit(baseWelcome.replace('<ping>', 'run `;;role ping`'))
@@ -50,10 +50,10 @@ We're still recovering from a raid so many of our resources and giveaways are mi
       } catch {}
       m.edit(baseWelcome.replace('<ping>', `you're all set`))
       reaction.removeAll()
-    })
+    })*/
 
     return true
   }
-  async onLeave(member: GuildMember): Promise<boolean> { return false }
+  async onLeave(member: GuildMember | PartialGuildMember): Promise<boolean> { return false }
   async onMessage(message: Message, extras: OnMessageExtras): Promise<boolean> { return false }
 }

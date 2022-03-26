@@ -38,7 +38,7 @@ export class PwncoinHandler extends BaseHandler {
       const firstTenBalances = await Promise.all(balances
         .slice(0, 10)
         .map(async ({ id, amount }) => ({
-          user: await this.client.fetchUser(id),
+          user: await this.client.users.fetch(id),
           amount
         })))
       

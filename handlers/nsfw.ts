@@ -1,6 +1,6 @@
 import { Message } from 'discord.js'
 import { BaseHandler } from './_base'
-import { getNonContentWarningText } from '../util'
+import { getNonContentWarningText, hasRole } from '../util'
 
 const regexes = [
   /(^| |"|'|`)p.?e.?n.?i.?s($| |"|'|`)/i,
@@ -34,7 +34,7 @@ export class NsfwHandler extends BaseHandler {
       this.loaded.channels.venting.id
     ].includes(message.channel.id)) return false
 
-    if (message.member.roles.has(this.loaded.roles.super.id)) {
+    if (hasRole(message.member, this.loaded.roles.super)) {
       return false
     }
 
