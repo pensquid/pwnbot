@@ -1,12 +1,13 @@
 import { Message } from 'discord.js'
 import { BaseHandler } from './_base'
 import { betterParseInt } from '../util'
+import { CONSTANTS } from '../constants'
 
 export class CountingHandler extends BaseHandler {
 	_name = 'counting'
 
 	async onMessage(message: Message) {
-		if (message.channel !== this.loaded.channels.counting) return false
+		if (message.channel.id !== CONSTANTS.channels.counting) return false
 
 		const lastMessages = await message.channel.messages.fetch({ limit: 2 })
 		const last = lastMessages.last()

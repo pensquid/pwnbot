@@ -6,8 +6,10 @@ import {
 	Client,
 	MessageReaction,
 	PartialGuildMember,
+	TextChannel,
 } from 'discord.js'
-import { BaseLoaded } from '../loader'
+import { prefix } from '../config'
+import { CONSTANTS } from '../constants'
 
 const welcomeEmojis = [
 	'😝',
@@ -24,38 +26,29 @@ const welcomeEmojis = [
 
 export interface OnMessageExtras {
 	users: Collection<string, User>
-	members: GuildMember[]
 }
 
 export abstract class BaseHandler {
 	client: Client
-	loaded: BaseLoaded
 
 	abstract _name: string
 
-	constructor(client: Client, loaded: BaseLoaded) {
+	constructor(client: Client) {
 		this.client = client
-		this.loaded = loaded
 	}
 
 	async onInit(): Promise<void> {}
 	async onJoin(member: GuildMember): Promise<boolean> {
 		const baseWelcome = `
-${member} welcome to PwnSquad: the only programming server with at least two distinct conversations at any given time!
-Make sure to read the ${this.loaded.channels.rules} and get some cool ${this.loaded.channels.roles}.
-We're still recovering from a raid so many of our resources and giveaways are missing - please be patient.
-**If you want to get important updates and participate in giveaways, <ping>!** (We don't ping often)
+${member} welcome to ${CONSTANTS.guild.name}: the only programming server with at least two distinct conversations at any given time!
+Make sure to read the <#${CONSTANTS.channels.rules}> and get some cool <#${CONSTANTS.channels.roles}>.
+**If you want to get important updates and participate in giveaways, run \`${prefix}}ping\`!** (We don't ping often)
     `.trim()
 
-		await this.loaded.channels.lobby.send(
-			welcomeEmojis[Math.floor(Math.random() * welcomeEmojis.length)]
-		)
-		const m = await this.loaded.channels.lobby.send(
-			baseWelcome.replace(
-				'<ping>',
-				`react to this message with ${this.loaded.emojis.ping}`
-			)
-		)
+		const lobby = (await this.client.channels.fetch(
+			CONSTANTS.channels.lobby
+		)) as TextChannel
+		const m = await lobby.send(baseWelcome)
 
 		/*const reaction = await m.react(this.loaded.emojis.ping)
     const timeout = setTimeout(() => {

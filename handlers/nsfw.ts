@@ -1,6 +1,7 @@
-import { Message } from 'discord.js'
+import { Message, TextChannel } from 'discord.js'
 import { BaseHandler } from './_base'
 import { getNonContentWarningText, hasRole } from '../util'
+import { CONSTANTS } from '../constants'
 
 const regexes = [
 	/(^| |"|'|`)p.?e.?n.?i.?s($| |"|'|`)/i,
@@ -31,20 +32,23 @@ export class NsfwHandler extends BaseHandler {
 
 		if (
 			[
-				this.loaded.channels.staffDiscussions.id,
-				this.loaded.channels.venting.id,
+				CONSTANTS.channels.staffDiscussions,
+				CONSTANTS.channels.venting,
 			].includes(message.channel.id)
 		)
 			return false
 
-		if (hasRole(message.member, this.loaded.roles.super)) {
+		if (hasRole(message.member, CONSTANTS.roles.super)) {
 			return false
 		}
 
 		const text = getNonContentWarningText(message.content)
 		for (const regex of regexes) {
 			if (text.toLowerCase().match(regex)) {
-				await this.loaded.channels.reports.send(
+				const reports = (await this.client.channels.fetch(
+					CONSTANTS.channels.reports
+				)) as TextChannel
+				await reports.send(
 					`
 **Potentially NSFW/disturbing message by ${message.member} in ${message.channel} has been deleted:**
 ${message.content}
