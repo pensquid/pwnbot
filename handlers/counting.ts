@@ -3,22 +3,22 @@ import { BaseHandler } from './_base'
 import { betterParseInt } from '../util'
 
 export class CountingHandler extends BaseHandler {
-  _name = 'counting'
+	_name = 'counting'
 
-  async onMessage(message: Message) {
-    if (message.channel !== this.loaded.channels.counting) return false
-    
-    const lastMessages = await message.channel.messages.fetch({ limit: 2 })
-    const last = lastMessages.last()
-    if (!last) return false
+	async onMessage(message: Message) {
+		if (message.channel !== this.loaded.channels.counting) return false
 
-    const parsedLast = betterParseInt(last.content)
-    const parsedCurrent = betterParseInt(message.content)
+		const lastMessages = await message.channel.messages.fetch({ limit: 2 })
+		const last = lastMessages.last()
+		if (!last) return false
 
-    if (parsedCurrent - parsedLast !== 1 || last.author === message.author) {
-      await message.delete()
-    }
+		const parsedLast = betterParseInt(last.content)
+		const parsedCurrent = betterParseInt(message.content)
 
-    return true
-  }
+		if (parsedCurrent - parsedLast !== 1 || last.author === message.author) {
+			await message.delete()
+		}
+
+		return true
+	}
 }

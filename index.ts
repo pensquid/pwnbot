@@ -13,60 +13,68 @@ import { RulesHandler } from './handlers/rules'
 import { ImageHandler } from './handlers/image'
 
 const client = new Discord.Client({
-  intents: [
-    Discord.Intents.FLAGS.GUILD_MEMBERS,
-    Discord.Intents.FLAGS.GUILD_MESSAGES
-  ]
+	intents: [
+		Discord.Intents.FLAGS.GUILD_MEMBERS,
+		Discord.Intents.FLAGS.GUILD_MESSAGES,
+	],
 })
 
 const handlers = [
-  NsfwHandler,
-  SentimentHandler,
-  CountingHandler,
-  DataHandler,
-  RulesHandler,
-  PwncoinHandler,
-  ImageHandler
+	NsfwHandler,
+	SentimentHandler,
+	CountingHandler,
+	DataHandler,
+	RulesHandler,
+	PwncoinHandler,
+	ImageHandler,
 ]
 
-const allHandlers = async (f: (h: BaseHandler) => Promise<boolean>, fName: string) => {
-  if (!loaded.done) return
+const allHandlers = async (
+	f: (h: BaseHandler) => Promise<boolean>,
+	fName: string
+) => {
+	if (!loaded.done) return
 
-  for (const Handler of handlers) {
-    const handler = new Handler(client, loaded)
-    try {
-      const res = await f(handler)
-      if (res) break
-    } catch (error) {
-      console.log(`> ${handler._name} errored in ${fName}!`)
-      console.log(error)
-    }
-  }
+	for (const Handler of handlers) {
+		const handler = new Handler(client, loaded)
+		try {
+			const res = await f(handler)
+			if (res) break
+		} catch (error) {
+			console.log(`> ${handler._name} errored in ${fName}!`)
+			console.log(error)
+		}
+	}
 }
 
 client.on('ready', async () => {
-  console.log(`> Logged in as ${client.user!.tag}`)
-  client.user!.setActivity('you', { type: 'WATCHING' })
+	console.log(`> Logged in as ${client.user!.tag}`)
+	client.user!.setActivity('you', { type: 'WATCHING' })
 
-  load(client)
-  if (!loaded.done) return
+	load(client)
+	if (!loaded.done) return
 })
 
 client.on('guildMemberAdd', async (member) => {
-  await allHandlers(async (handler) => await handler.onJoin(member), 'onJoin')
+	await allHandlers(async (handler) => await handler.onJoin(member), 'onJoin')
 })
 
 client.on('guildMemberRemove', async (member) => {
-  await allHandlers(async (handler) => await handler.onLeave(member), 'onLeave')
+	await allHandlers(async (handler) => await handler.onLeave(member), 'onLeave')
 })
 
 client.on('message', async (message: Message) => {
-  if (!loaded.done) return
+	if (!loaded.done) return
 
-  const users = message.mentions.users
-  const members = await Promise.all(users.map((user) => loaded.guild?.members.fetch(user))) as GuildMember[]
+	const users = message.mentions.users
+	const members = (await Promise.all(
+		users.map((user) => loaded.guild?.members.fetch(user))
+	)) as GuildMember[]
 
-  await allHandlers(async (handler) => await handler.onMessage(message, { members, users }), 'onMessage')
+	await allHandlers(
+		async (handler) => await handler.onMessage(message, { members, users }),
+		'onMessage'
+	)
 })
 
 client.login(process.env.BOT_TOKEN)

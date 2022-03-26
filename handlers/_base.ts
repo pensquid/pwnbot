@@ -1,37 +1,63 @@
-import { GuildMember, Message, User, Collection, Client, MessageReaction, PartialGuildMember } from 'discord.js'
+import {
+	GuildMember,
+	Message,
+	User,
+	Collection,
+	Client,
+	MessageReaction,
+	PartialGuildMember,
+} from 'discord.js'
 import { BaseLoaded } from '../loader'
 
-const welcomeEmojis = ['😝', '🍻', '😄', '🎉', '👍', '🤠', '👋', '🤖', '👊', '❤️']
+const welcomeEmojis = [
+	'😝',
+	'🍻',
+	'😄',
+	'🎉',
+	'👍',
+	'🤠',
+	'👋',
+	'🤖',
+	'👊',
+	'❤️',
+]
 
 export interface OnMessageExtras {
-  users: Collection<string, User>,
-  members: GuildMember[]
+	users: Collection<string, User>
+	members: GuildMember[]
 }
 
 export abstract class BaseHandler {
-  client: Client
-  loaded: BaseLoaded
+	client: Client
+	loaded: BaseLoaded
 
-  abstract _name: string
-  
-  constructor(client: Client, loaded: BaseLoaded) {
-    this.client = client
-    this.loaded = loaded
-  }
-  
-  async onInit(): Promise<void> {}
-  async onJoin(member: GuildMember): Promise<boolean> {
-    const baseWelcome = `
+	abstract _name: string
+
+	constructor(client: Client, loaded: BaseLoaded) {
+		this.client = client
+		this.loaded = loaded
+	}
+
+	async onInit(): Promise<void> {}
+	async onJoin(member: GuildMember): Promise<boolean> {
+		const baseWelcome = `
 ${member} welcome to PwnSquad: the only programming server with at least two distinct conversations at any given time!
 Make sure to read the ${this.loaded.channels.rules} and get some cool ${this.loaded.channels.roles}.
 We're still recovering from a raid so many of our resources and giveaways are missing - please be patient.
 **If you want to get important updates and participate in giveaways, <ping>!** (We don't ping often)
     `.trim()
 
-    await this.loaded.channels.lobby.send(welcomeEmojis[Math.floor(Math.random() * welcomeEmojis.length)])
-    const m = await this.loaded.channels.lobby.send(baseWelcome.replace('<ping>', `react to this message with ${this.loaded.emojis.ping}`))
+		await this.loaded.channels.lobby.send(
+			welcomeEmojis[Math.floor(Math.random() * welcomeEmojis.length)]
+		)
+		const m = await this.loaded.channels.lobby.send(
+			baseWelcome.replace(
+				'<ping>',
+				`react to this message with ${this.loaded.emojis.ping}`
+			)
+		)
 
-    /*const reaction = await m.react(this.loaded.emojis.ping)
+		/*const reaction = await m.react(this.loaded.emojis.ping)
     const timeout = setTimeout(() => {
       try {
         m.edit(baseWelcome.replace('<ping>', 'run `;;role ping`'))
@@ -52,8 +78,12 @@ We're still recovering from a raid so many of our resources and giveaways are mi
       reaction.removeAll()
     })*/
 
-    return true
-  }
-  async onLeave(member: GuildMember | PartialGuildMember): Promise<boolean> { return false }
-  async onMessage(message: Message, extras: OnMessageExtras): Promise<boolean> { return false }
+		return true
+	}
+	async onLeave(member: GuildMember | PartialGuildMember): Promise<boolean> {
+		return false
+	}
+	async onMessage(message: Message, extras: OnMessageExtras): Promise<boolean> {
+		return false
+	}
 }
