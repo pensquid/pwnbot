@@ -25,7 +25,7 @@ const regexes = [
 ]
 
 export const NsfwModule: Module = (client) => {
-	client.on('message', async (message): Promise<void> => {
+	client.on('messageCreate', async (message): Promise<void> => {
 		if (message.author.bot) return
 
 		if (
