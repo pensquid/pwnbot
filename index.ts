@@ -1,4 +1,5 @@
 require('dotenv').config()
+import 'reflect-metadata'
 
 import Discord, { Message, GuildMember } from 'discord.js'
 import { AppDataSource } from './data-source'
@@ -6,15 +7,17 @@ import { CountingModule } from './modules/counting'
 
 import { JoinMsgModule } from './modules/joinmsg'
 import { NsfwModule } from './modules/nsfw'
+import { JournalModule } from './modules/journal'
 
 const client = new Discord.Client({
 	intents: [
+		Discord.Intents.FLAGS.GUILDS,
 		Discord.Intents.FLAGS.GUILD_MEMBERS,
 		Discord.Intents.FLAGS.GUILD_MESSAGES,
 	],
 })
 
-const MODULES = [JoinMsgModule, CountingModule, NsfwModule]
+const MODULES = [JoinMsgModule, CountingModule, NsfwModule, JournalModule]
 MODULES.forEach((m) => m(client))
 
 client.on('ready', async () => {
