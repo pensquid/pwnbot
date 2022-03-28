@@ -4,7 +4,7 @@ import { betterParseInt } from '../util'
 import { Module } from './modules'
 
 export const CountingModule: Module = (client) => {
-	client.on('message', async (message): Promise<void> => {
+	client.on('messageCreate', async (message): Promise<void> => {
 		if (message.channel.id !== CONSTANTS.channels.counting) return
 
 		const lastMessages = await message.channel.messages.fetch({ limit: 2 })
