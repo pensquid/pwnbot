@@ -8,4 +8,5 @@ export const AppDataSource = new DataSource({
 	entities: [Entry, User],
 	// TODO: disable this for prod
 	synchronize: true,
+	logging: 'all',
 })
