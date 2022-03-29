@@ -13,37 +13,50 @@ export const JournalModule: Module = (client) => {
 		return addDays(new Date(Date.now()), dbgOffset)
 	}
 
-	function getDateStamp(user: User, date: Date): string {
-		return formatInTimeZone(date, user.timezone, 'yyyy-MM-dd')
+	function getDateStamp(timezone: string, date: Date): string {
+		return formatInTimeZone(date, timezone, 'yyyy-MM-dd')
 	}
 
-	async function getReply(msg: Message): Promise<string> {
+	function threadName(msg: Message, timezone: string) {
+		return `${msg.member?.nickname ?? msg.author.username} - ${formatInTimeZone(
+			now(),
+			timezone,
+			'MM-dd'
+		)}`
+	}
+
+	async function getReply(msg: Message): Promise<[string, string]> {
 		const user = await User.findOne({ where: { discordID: msg.author.id } })
 		// TODO reword this
-		if (!user) return 'Run `/timezone` to set up streaks'
-		const dateStamp = getDateStamp(user, now())
+		if (!user)
+			return [threadName(msg, 'UTC'), 'Run `/timezone` to set up streaks']
+		const dateStamp = getDateStamp(user.timezone, now())
 		const entry = await Entry.upsert(
 			{
 				dateStamp,
+				messageID: msg.id,
 				content: msg.content,
 				author: user,
 			},
 			['dateStamp', 'author']
 		)
 		const entries = await Entry.find({ where: { author: { id: user.id } } })
-		return entries
-			.map((i) => `ID: ${i.id}, content: ${JSON.stringify(i.content)}`)
-			.join('\n')
+		return [
+			threadName(msg, user.timezone),
+			entries
+				.map((i) => `ID: ${i.id}, content: ${JSON.stringify(i.content)}`)
+				.join('\n'),
+		]
 	}
 
 	client.on('messageCreate', async (msg) => {
 		if (msg.author.bot || msg.channel.id !== CONSTANTS.channels.testing) return
 		if (msg.channel.type !== 'GUILD_TEXT') return
-		const reply = await getReply(msg)
+		const [threadName, reply] = await getReply(msg)
 		const thread = await msg.channel.threads.create({
 			startMessage: msg,
 			// TODO: add date
-			name: `${msg.member?.nickname ?? msg.author.username}`,
+			name: threadName,
 			autoArchiveDuration: 1440,
 		})
 		await thread.join()

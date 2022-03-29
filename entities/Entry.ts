@@ -18,6 +18,9 @@ export class Entry extends BaseEntity {
 	dateStamp: string
 
 	@Column()
+	messageID: string
+
+	@Column()
 	content: string
 
 	@ManyToOne(() => User, (user) => user.entries)
