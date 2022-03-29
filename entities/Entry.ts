@@ -9,12 +9,12 @@ import {
 import { User } from './User'
 
 @Entity()
+@Unique('onePerDay', ['dateStamp', 'author'])
 export class Entry extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number
 
 	@Column()
-	@Unique(['dateStamp', 'author'])
 	dateStamp: string
 
 	@Column()

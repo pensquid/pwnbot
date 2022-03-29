@@ -14,7 +14,7 @@ export const JournalModule: Module = (client) => {
 	}
 
 	function getDateStamp(user: User, date: Date): string {
-		return formatInTimeZone(date, user.timezone, 'YYYY-MM-DD')
+		return formatInTimeZone(date, user.timezone, 'yyyy-MM-dd')
 	}
 
 	async function getReply(msg: Message): Promise<string> {
@@ -28,10 +28,12 @@ export const JournalModule: Module = (client) => {
 				content: msg.content,
 				author: user,
 			},
-			[]
+			['dateStamp', 'author']
 		)
-		console.log({ entry })
-		return `Entry ID: ${entry}`
+		const entries = await Entry.find({ where: { author: { id: user.id } } })
+		return entries
+			.map((i) => `ID: ${i.id}, content: ${JSON.stringify(i.content)}`)
+			.join('\n')
 	}
 
 	client.on('messageCreate', async (msg) => {
