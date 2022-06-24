@@ -1,5 +1,5 @@
 { pkgs ? import <nixpkgs> { } }:
-let nodeVersion = pkgs.nodejs-17_x;
+let nodeVersion = pkgs.nodejs-18_x;
 in pkgs.mkShell {
   nativeBuildInputs = [
     nodeVersion
