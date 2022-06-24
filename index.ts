@@ -1,15 +1,13 @@
 require('dotenv').config()
 import 'reflect-metadata'
 
-import Discord, { Message, GuildMember, CommandInteraction } from 'discord.js'
-import { AppDataSource } from './data-source'
+import Discord, { CommandInteraction } from 'discord.js'
 import { CountingModule } from './modules/counting'
 
+import { COMMANDS } from './commands'
+import { Command } from './commands/types'
 import { JoinMsgModule } from './modules/joinmsg'
 import { NsfwModule } from './modules/nsfw'
-import { JournalModule } from './modules/journal'
-import { Command } from './commands/types'
-import { COMMANDS } from './commands'
 
 const client = new Discord.Client({
 	intents: [
@@ -19,7 +17,7 @@ const client = new Discord.Client({
 	],
 })
 
-const MODULES = [JoinMsgModule, CountingModule, NsfwModule, JournalModule]
+const MODULES = [JoinMsgModule, CountingModule, NsfwModule]
 MODULES.forEach((m) => m(client))
 
 client.on('ready', async () => {
@@ -52,7 +50,6 @@ client.on('interactionCreate', async (interaction) => {
 })
 
 async function main() {
-	await AppDataSource.initialize()
 	await client.login(process.env.BOT_TOKEN)
 }
 
