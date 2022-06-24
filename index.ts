@@ -1,5 +1,4 @@
 require('dotenv').config()
-import 'reflect-metadata'
 
 import Discord, { CommandInteraction } from 'discord.js'
 import { CountingModule } from './modules/counting'
